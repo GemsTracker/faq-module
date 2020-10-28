@@ -1,6 +1,6 @@
 {
-    "name": "gemstracker/sample-module",
-    "description": "Sample module for GemsTracker",
+    "name": "gemstracker/faq-module",
+    "description": "FAQ en manual module for GemsTracker",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
