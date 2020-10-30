@@ -11,8 +11,8 @@
 
 namespace GemsFaq;
 
-// use Gems\Event\Application\GetDatabasePaths;
-// use Gems\Event\Application\LoaderInitEvent;
+use Gems\Event\Application\GetDatabasePaths;
+use Gems\Event\Application\LoaderInitEvent;
 use Gems\Event\Application\MenuAdd;
 // use Gems\Event\Application\ModelCreateEvent;
 use Gems\Event\Application\SetFrontControllerDirectory;
@@ -35,12 +35,12 @@ class ModuleSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-//            GetDatabasePaths::NAME => [
-//                ['getDatabasePaths'],
-//            ],
-//            LoaderInitEvent::NAME => [
-//                ['initLoader'],
-//            ],
+            GetDatabasePaths::NAME => [
+                ['getDatabasePaths'],
+            ],
+            LoaderInitEvent::NAME => [
+                ['initLoader'],
+            ],
 //            'gems.model.create.conditions' => [
 //                ['createConditionModel'],
 //            ],
@@ -67,10 +67,31 @@ class ModuleSubscriber implements EventSubscriberInterface
      */
     public function addToMenu(MenuAdd $event)
     {
-        $menu = $event->getMenu();
         $translateAdapter = $event->getTranslatorAdapter();
+        
+        \MUtil_Echo::track('menu');
+        
+        $prevMenu = $event->getMenu()->findController('comm-job');
+        if ($prevMenu) {
+            $cjMenu =  $prevMenu->getParent();
+            $contMenu = $cjMenu->getParent();
 
-        $menu->addPage($translateAdapter->_('Sample Module Test'), null, 'module-test', 'index');
+            if ($contMenu instanceof \Gems_Menu_MenuAbstract) {
+                $blockMenu = $contMenu->addContainer($translateAdapter->_('FAQ & Manuals'), null, ['order' => $cjMenu->get('order') + 4]);
+                $faq = $blockMenu->addBrowsePage($translateAdapter->_('FAQ Setup'), 'faq.setup', 'faq-setup');
+
+//                $blockMenu->addBrowsePage($translateAdapter->_('Studies'), 'prr.studies', 'randomization-study')
+//                          ->addAction($translateAdapter->_('Reset study'), 'prr.studies.reset', 'reset');
+//                $blockMenu->addBrowsePage($translateAdapter->_('Strata'), 'prr.strata', 'randomization-strata');
+//                $blockMenu->addBrowsePage($translateAdapter->_('Values'), 'prr.values', 'randomization-value');
+//                $blockMenu->addBrowsePage($translateAdapter->_('Assignments'), 'prr.assignments', 'randomization');
+//
+//                // See randomization outcome
+//                $menu->addHiddenPrivilege('prr.assignments.seeresult', $translateAdapter->_(
+//                    'Grant right to see the outcome of a randomization.'
+//                ));
+            }
+        }
     }
 
     /**
@@ -101,12 +122,12 @@ class ModuleSubscriber implements EventSubscriberInterface
 
     /**
      * @param \Gems\Event\Application\GetDatabasePaths $event
-     * /
+     */
     public function getDatabasePaths(GetDatabasePaths $event)
     {
         $path = ModuleSettings::getVendorPath() . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . 'db';
         $event->addPath(ModuleSettings::$moduleName, $path);
-    }// */
+    } // */
 
     /**
      * @param \Gems\Event\Application\TranslatableNamedArrayEvent $event
@@ -123,10 +144,11 @@ class ModuleSubscriber implements EventSubscriberInterface
 
     /**
      * @param \Gems\Event\Application\LoaderInitEvent $event
-     * /
+     */
     public function initLoader(LoaderInitEvent $event)
     {
-        $event->addByName(new SampleUtil(), 'randomUtil');
+        \MUtil_Echo::track('loader');
+        // $event->addByName(new SampleUtil(), 'randomUtil');
     }
 
     /**
@@ -136,5 +158,5 @@ class ModuleSubscriber implements EventSubscriberInterface
     {
         $applicationPath = ModuleSettings::getVendorPath() . DIRECTORY_SEPARATOR . 'controllers';
         $event->setControllerDirIfControllerExists($applicationPath);
-    }
+    } // */
 }
