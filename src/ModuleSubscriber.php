@@ -18,6 +18,7 @@ use Gems\Event\Application\MenuAdd;
 use Gems\Event\Application\SetFrontControllerDirectory;
 // use Gems\Event\Application\TranslatableNamedArrayEvent;
 // use Gems\Event\Application\ZendTranslateEvent;
+use GemsFaq\util\FaqUtil;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -29,6 +30,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ModuleSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var \GemsFaq\FaqParts
+     */
+    protected $faqParts;
+    
+    /**
+     * @var FaqUtil
+     */
+    protected $faqUtil;
+    
     /**
      * @return array|\string[][][]
      */
@@ -69,28 +80,23 @@ class ModuleSubscriber implements EventSubscriberInterface
     {
         $translateAdapter = $event->getTranslatorAdapter();
         
-        \MUtil_Echo::track('menu');
-        
-        $prevMenu = $event->getMenu()->findController('comm-job');
+        // \MUtil_Echo::track('menu');
+        $menu     = $event->getMenu();
+        $prevMenu = $menu->findController('comm-job');
         if ($prevMenu) {
             $cjMenu =  $prevMenu->getParent();
             $contMenu = $cjMenu->getParent();
 
             if ($contMenu instanceof \Gems_Menu_MenuAbstract) {
-                $blockMenu = $contMenu->addContainer($translateAdapter->_('FAQ & Manuals'), null, ['order' => $cjMenu->get('order') + 4]);
-                $faq = $blockMenu->addBrowsePage($translateAdapter->_('FAQ Setup'), 'faq.setup', 'faq-setup');
-
-//                $blockMenu->addBrowsePage($translateAdapter->_('Studies'), 'prr.studies', 'randomization-study')
-//                          ->addAction($translateAdapter->_('Reset study'), 'prr.studies.reset', 'reset');
-//                $blockMenu->addBrowsePage($translateAdapter->_('Strata'), 'prr.strata', 'randomization-strata');
-//                $blockMenu->addBrowsePage($translateAdapter->_('Values'), 'prr.values', 'randomization-value');
-//                $blockMenu->addBrowsePage($translateAdapter->_('Assignments'), 'prr.assignments', 'randomization');
-//
-//                // See randomization outcome
-//                $menu->addHiddenPrivilege('prr.assignments.seeresult', $translateAdapter->_(
-//                    'Grant right to see the outcome of a randomization.'
-//                ));
+                $blockMenu = $contMenu->addContainer($translateAdapter->_('Info & Manuals'), null, ['order' => $cjMenu->get('order') + 4]);
+                $blockMenu->addBrowsePage($translateAdapter->_('Info Pages'), 'faq.setup.page', 'faq-page-setup');
+                $blockMenu->addBrowsePage($translateAdapter->_('Info Groups'), 'faq.setup.group', 'faq-group-setup');
+                $faq = $blockMenu->addBrowsePage($translateAdapter->_('Info Items'), 'faq.setup.item', 'faq-item-setup');
             }
+        }
+        
+        if ($this->faqUtil) {
+            $this->faqUtil->applyToMenu($menu);
         }
     }
 
@@ -147,8 +153,11 @@ class ModuleSubscriber implements EventSubscriberInterface
      */
     public function initLoader(LoaderInitEvent $event)
     {
-        \MUtil_Echo::track('loader');
-        // $event->addByName(new SampleUtil(), 'randomUtil');
+//        $this->faqParts = new FaqParts();
+//        $event->addByName($this->faqParts, 'faqParts');
+        
+        $this->faqUtil = new FaqUtil();
+        $event->addByName($this->faqUtil, 'faqUtil');
     }
 
     /**

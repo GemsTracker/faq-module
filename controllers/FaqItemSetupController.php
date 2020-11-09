@@ -2,8 +2,8 @@
 
 /**
  *
- * @package    JointCompassion
- * @subpackage Default
+ * @package    GemsFaq
+ * @subpackage Controller
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Maasstad Ziekenhuis and MagnaFacta B.V.
  * @license    No free license, do not copy
@@ -11,13 +11,13 @@
 
 /**
  *
- * @package    JointCompassion
- * @subpackage Default
+ * @package    GemsFaq
+ * @subpackage Controller
  * @copyright  Copyright (c) 2020, Maasstad Ziekenhuis and MagnaFacta B.V.
  * @license    No free license, do not copy
  * @since      Class available since version 1.8.8 14-May-2020 18:52:33
  */
-class FaqSetupController extends \Gems_Controller_ModelSnippetActionAbstract
+class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
 {
     /**
      * The snippets used for the autofilter action.

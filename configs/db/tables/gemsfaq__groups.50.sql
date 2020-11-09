@@ -1,10 +1,12 @@
 
 CREATE TABLE if not exists gemsfaq__groups (
         gfg_id                      bigint unsigned not null auto_increment,
+
+        gfg_page_id                 bigint unsigned not null references gemsfaq__pages (gfp_id),
         
-        gfg_page                    varchar(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' default 'FAQ',
-        gfg_group_name              varchar(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
         gfg_id_order                int not null default 10,
+        gfg_group_name              varchar(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
+        gfg_display_method          varchar(20) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
 
         gfg_active                  boolean null default 1,
         
