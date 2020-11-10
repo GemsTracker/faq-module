@@ -26,7 +26,12 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     const MENU_AFTER = 2;
 
     /**
-     * @var\Gems_Menu
+     * @var \GemsFaq\FaqPageParts
+     */
+    protected $faqParts;
+
+    /**
+     * @var \Gems_Menu
      */
     protected $menu;
 
@@ -191,7 +196,7 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         
         return  $this->_getSelectPairsCached(__FUNCTION__, $sql, null, 'faq_pages');
     }
-    
+
     /**
      * @return array
      */

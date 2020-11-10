@@ -3,28 +3,28 @@
 /**
  *
  * @package    GemsFaq
- * @subpackage Parts\Group
+ * @subpackage PageParts\Group
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
  */
 
-namespace GemsFaq\Parts\Group;
+namespace GemsFaq\PageParts\Group;
 
 /**
  *
  * @package    GemsFaq
- * @subpackage Parts\Group
+ * @subpackage PageParts\Group
  * @license    New BSD License
  * @since      Class available since version 1.8.8
  */
-class InfoNoTitlePart extends InfoTitlePart
+class InfoNoTitleGroupPart extends InfoTitleGroupPart
 {
     /**
      * @inheritDoc
      */
     public function getPartName()
     {
-        $this->_('Info without group title');
+        return $this->_('Info without group title');
     }
 }

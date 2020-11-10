@@ -18,7 +18,7 @@ use Gems\Event\Application\MenuAdd;
 use Gems\Event\Application\SetFrontControllerDirectory;
 // use Gems\Event\Application\TranslatableNamedArrayEvent;
 // use Gems\Event\Application\ZendTranslateEvent;
-use GemsFaq\util\FaqUtil;
+use GemsFaq\Util\FaqUtil;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -31,7 +31,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ModuleSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \GemsFaq\FaqParts
+     * @var \GemsFaq\FaqPageParts
      */
     protected $faqParts;
     
@@ -153,11 +153,11 @@ class ModuleSubscriber implements EventSubscriberInterface
      */
     public function initLoader(LoaderInitEvent $event)
     {
-//        $this->faqParts = new FaqParts();
-//        $event->addByName($this->faqParts, 'faqParts');
-        
         $this->faqUtil = new FaqUtil();
         $event->addByName($this->faqUtil, 'faqUtil');
+        
+        $this->faqParts = new FaqPageParts();
+        $event->addByName($this->faqParts, 'faqParts');
     }
 
     /**

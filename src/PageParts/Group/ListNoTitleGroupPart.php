@@ -1,24 +1,30 @@
 <?php
-        
+
 /**
  *
  * @package    GemsFaq
- * @subpackage Parts
+ * @subpackage PageParts\Group
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
  */
 
-namespace GemsFaq\Parts;
+namespace GemsFaq\PageParts\Group;
 
 /**
  *
  * @package    GemsFaq
- * @subpackage Parts
+ * @subpackage PageParts\Group
  * @license    New BSD License
  * @since      Class available since version 1.8.8
  */
-interface GroupPartInterface extends PartInterface
+class ListNoTitleGroupPart extends ListTitleGroupPart
 {
-
+    /**
+     * @inheritDoc
+     */
+    public function getPartName()
+    {
+        return $this->_('List without group title');
+    }
 }

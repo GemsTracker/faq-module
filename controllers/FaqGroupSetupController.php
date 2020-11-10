@@ -39,9 +39,9 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
     public $cacheTags = array('faq_groups');
 
     /**
-     * @var \GemsFaq\FaqParts
+     * @var \GemsFaq\FaqPageParts
      */
-    protected $faqParts;
+    public $faqParts;
 
     /**
      * @var GemsFaq\Util\FaqUtil
@@ -69,9 +69,9 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
             );
         $model->set('gfg_group_name', 'label', $this->_('Group title'));
 
-        $model->set('gfg_display_method', 'label', $this->_('Menu position'),
-                    'multiOptions', $this->faqUtil->getGroupDisplaySnippets() // $this->faqParts->listGroupParts()
-        );
+        $model->set('gfg_display_method', 'label', $this->_('Display option'),
+                    'multiOptions', $this->faqParts->listGroupParts()
+        ); // $this->faqUtil->getGroupDisplaySnippets() // 
 
         $model->set('gfg_active', 'label', $this->_('Active'),
                     'elementClass', 'Checkbox',
