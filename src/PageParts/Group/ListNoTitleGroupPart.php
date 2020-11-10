@@ -21,6 +21,11 @@ namespace GemsFaq\PageParts\Group;
 class ListNoTitleGroupPart extends ListTitleGroupPart
 {
     /**
+     * @var bool
+     */
+    protected $showTitle = false;
+    
+    /**
      * @inheritDoc
      */
     public function getPartName()

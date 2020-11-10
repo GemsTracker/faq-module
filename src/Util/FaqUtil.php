@@ -166,15 +166,25 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         return $menuOptions;
     }
 
-    public function getGroupDisplaySnippets()
+    /**
+     * @param string $action
+     * @return mixed
+     */
+    public function getInfoGroupsList($pageid = null)
     {
-        return [
-            'faqTitle' => $this->_('FAQ with group title'),
-            'faqNoTitle' => $this->_('FAQ without group title'),
-            'foldable'   => $this->_('Click on title to display group'),
-            'infoTitle' => $this->_('Info with group title'),
-            'infoNoTitle' => $this->_('Info without group title'),
-        ];
+        if ($pageid) {
+            $sql = "SELECT gfg_id, gfg_group_name 
+                        FROM gemsfaq__groups 
+                        WHERE gfg_active = 1 AND gfg_page_id = ? 
+                        ORDER BY gfg_id_order, gfg_group_name";
+
+            return $this->_getSelectPairsCached(__FUNCTION__ . '_' . intval($pageid), $sql, [$pageid], 'faq_pages');
+        }
+        return $this->_getSelectPairsCached(
+            __FUNCTION__, 
+            "SELECT gfg_id, gfg_group_name FROM gemsfaq__groups WHERE gfg_active = 1 ORDER BY gfg_id_order, gfg_group_name",
+            null, 
+            'faq_pages');
     }
     
     /**
@@ -190,7 +200,7 @@ class FaqUtil extends \Gems\Util\UtilAbstract
      * @param string $action
      * @return mixed
      */
-    public function getInfoPages()
+    public function getInfoPagesList()
     {
         $sql = "SELECT gfp_id, gfp_label FROM gemsfaq__pages ORDER BY gfp_label";
         

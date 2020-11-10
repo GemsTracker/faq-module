@@ -91,7 +91,8 @@ class ModuleSubscriber implements EventSubscriberInterface
                 $blockMenu = $contMenu->addContainer($translateAdapter->_('Info & Manuals'), null, ['order' => $cjMenu->get('order') + 4]);
                 $blockMenu->addBrowsePage($translateAdapter->_('Info Pages'), 'faq.setup.page', 'faq-page-setup');
                 $blockMenu->addBrowsePage($translateAdapter->_('Info Groups'), 'faq.setup.group', 'faq-group-setup');
-                $faq = $blockMenu->addBrowsePage($translateAdapter->_('Info Items'), 'faq.setup.item', 'faq-item-setup');
+                $blockMenu->addBrowsePage($translateAdapter->_('Info Items'), 'faq.setup.item', 'faq-item-setup');
+                $blockMenu->addFilePage($translateAdapter->_('Info Files'), 'faq.setup.file', 'faq-file-upload');
             }
         }
         

@@ -21,11 +21,27 @@ namespace GemsFaq\PageParts;
 interface PartInterface 
 {
     /**
+     * Load the object from a data array
+     *
+     * @param array $data
+     */
+    public function exchangeArray(array $data);
+
+    /**
      * Get example html how this part will look
      *
      * @return string
      */
     public function getExample();
+
+    /**
+     * Create the snippets content
+     *
+     * This is a stub function either override getHtmlOutput() or override render()
+     *
+     * @return \MUtil_Html_HtmlInterface Something that can be rendered
+     */
+    public function getHtmlOutput();
 
     /**
      * Get the name to use in dropdowns for this condition

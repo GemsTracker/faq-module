@@ -11,6 +11,8 @@
 
 namespace GemsFaq\Snippets;
 
+use GemsFaq\PageParts\GroupPartInterface;
+
 /**
  *
  * @package    GemsFaq
@@ -21,16 +23,10 @@ namespace GemsFaq\Snippets;
 class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
 {
     /**
-     *
-     * @var \Gems_Util_BasePath
+     * @var \GemsFaq\FaqPageParts
      */
-    protected $basepath;
-    
-    /**
-     * @var GemsFaq\Util\FaqUtil
-     */
-    public $faqUtil;
-    
+    public $faqParts;
+
     /**
      * @var int
      */
@@ -51,55 +47,20 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
      */
     public function getHtmlOutput(\Zend_View_Abstract $view)
     {
-        $html = $this->getHtmlSequence();
+        $html = \MUtil_Html::div(['class' => 'info-pages']);
 
         if ($this->title) {
             $html->h1($this->title);
         }
         
-        \MUtil_Echo::classToName($this->faqUtil);
-        return $html;
-
-        $view->headScript()->appendFile($this->basepath->getBasePath() .  '/js/jquery.verticalExpand.js');
-
-        $parentItem = $this->menu->getCurrentParent();
-        if ($parentItem && (! $parentItem instanceof \Gems_Menu)) {
-            $back = \MUtil_Html::create('p');
-            $back->append($parentItem->toActionLink($this->_('back')));
-        } else {
-            $back = \MUtil_Html::br();
-        }
-
-        $faqs  = $this->db->fetchAll(
-            "SELECT * FROM jc__token_faq WHERE jtf_active = 1 AND jtf_page = ? ORDER BY jtf_id_order",
-            $this->page
-        );
-        $group = null;
-        foreach ($faqs as $faq) {
-            if ($group != $faq['jtf_group']) {
-                if ($group) {
-                    $html->append($back);
-                }
-
-                $group = $faq['jtf_group'];
-                $html->h2($group)->class = 'faq';
+        $groups = $this->faqParts->getPageGroups($this->pageId);
+        
+        foreach ($groups as $group) {
+            if ($group instanceof GroupPartInterface) {
+                $html->append($group->getHtmlOutput());
             }
-
-            $divAll = $html->div(['class' => 'verticalExpand']);
-
-            $header = $divAll->div(['class' => 'header']);
-            $headerDiv = $header->h3($faq['jtf_question'] . ' ', array('class' => 'title'));
-
-            $span = $headerDiv->span(array('class' => 'header-caret fa fa-chevron-right'))->raw('&nbsp;');
-
-            $divContent = $divAll->div(['class' => 'content faq', 'style' => 'display: none;']);
-            // $div->h3($faq['jtf_question']);
-
-            $divContent->pInfo()->bbcode($faq['jtf_body']);
         }
-        $html->append($back);
-
+        
         return $html;
     }
-
 }

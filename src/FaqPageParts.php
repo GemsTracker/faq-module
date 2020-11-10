@@ -11,6 +11,8 @@
 
 namespace GemsFaq;
 
+use GemsFaq\PageParts\PartInterface;
+use GemsFaq\PageParts\ItemPartInterface;
 use MUtil\Translate\TranslateableTrait;
 use Zalt\Loader\ProjectOverloader;
 use Zalt\Loader\Target\TargetInterface;
@@ -54,6 +56,12 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
      * @var \Zalt\Loader\ProjectOverloader
      */
     protected $_subLoader;
+
+    /**
+     *
+     * @var \Zend_Db_Adapter_Abstract
+     */
+    protected $db;
 
     /**
      * @var array Of prefix => path strings for class lookup
@@ -150,7 +158,9 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
         }
 
         if ($part instanceof \MUtil_Registry_TargetInterface) {
-            $this->applySource($part);
+            $this->overLoader->applyToLegacyTarget($part);
+        } elseif ($part instanceof TargetInterface) {
+            $this->overLoader->applyToTarget($part);
         }
 
         return $part;
@@ -195,6 +205,88 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
                 $this->_dirs[$name] = $sub;
             }
         } 
+    }
+
+    /**
+     * @param int $groupid
+     * @return array
+     */
+    public function getGroupItems($groupId)
+    {
+        $sql = "SELECT * FROM gemsfaq__items WHERE gfi_id = ? ORDER BY gfi_id_order, gfi_title";
+
+        $items = $this->db->fetchAll($sql, $groupId);
+
+        if (! $items) {
+            return [];
+        }
+
+        $output = [];
+        foreach ($items as $item) {
+            $part = $this->_loadPart($item['gfi_display_method'], self::ITEM_PART);
+            if ($part instanceof PartInterface) {
+                $part->exchangeArray($item);
+                $output[$item['gfi_id']] = $part;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param int $itemId
+     * @return ItemPartInterface
+     */
+    public function getItem($itemId)
+    {
+        $item = $this->db->fetchRow("SELECT * FROM gemsfaq__items WHERE gfi_id = ?", $itemId);
+
+        if (! $item) {
+            return null;
+        }
+
+        $part = $this->getItemPart($item['gfi_display_method']);
+        if ($part instanceof ItemPartInterface) {
+            $part->exchangeArray($item);
+            return $part;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $displayMethod
+     * @return ItemPartInterface
+     */
+    public function getItemPart($displayMethod)
+    {
+        return $this->_loadPart($displayMethod, self::ITEM_PART);
+    }
+
+    /**
+     * @param string $action
+     * @return array
+     */
+    public function getPageGroups($pageid)
+    {
+        $sql = "SELECT * FROM gemsfaq__groups WHERE gfg_active = 1 AND gfg_page_id = ? ORDER BY gfg_id_order, gfg_group_name";
+
+        $groups = $this->db->fetchAll($sql, $pageid);
+        
+        if (! $groups) {
+            return [];
+        }
+        
+        $output = [];
+        foreach ($groups as $group) {
+            $part = $this->_loadPart($group['gfg_display_method'], self::GROUP_PART);
+            if ($part instanceof PartInterface) {
+                $part->exchangeArray($group);
+                $output[$group['gfg_id']] = $part;
+            }    
+        }
+        
+        return $output;
     }
 
     /**
@@ -245,7 +337,6 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
                         $this->overLoader->applyToTarget($class);                    
                     }
 
-                    \MUtil_Echo::track(get_class($class), $nameMethod, $class->$nameMethod());
                     $results[$className] = trim($class->$nameMethod()) . ' (' . $className . ')';
                 }
                 // \MUtil_Echo::track($eventName);
@@ -256,6 +347,15 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
         return $results;
     }
 
+    /**
+     *
+     * @return array partname => string
+     */
+    public function listItemParts()
+    {
+        return $this->_listParts(self::ITEM_PART);
+    }
+    
     /**
      *
      * @return array partname => string

@@ -9,6 +9,9 @@
  * @license    No free license, do not copy
  */
 
+use GemsFaq\PageParts\ItemPartInterface;
+use MUtil\Model\Dependency\CallbackDependency;
+
 /**
  *
  * @package    GemsFaq
@@ -43,6 +46,16 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         ];
 
     /**
+     * @var \GemsFaq\FaqPageParts
+     */
+    public $faqParts;
+
+    /**
+     * @var GemsFaq\Util\FaqUtil
+     */
+    public $faqUtil;
+    
+    /**
      * @var \Gems_Menu
      */
     public $menu;
@@ -72,29 +85,6 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         ];
 
     /**
-     * Display a template body
-     *
-     * @param string $bbcode
-     * @return \MUtil_Html_HtmlElement
-     */
-    public function bbToHtml($bbcode)
-    {
-        if (empty($bbcode)) {
-            $em = \MUtil_Html::create('em');
-            $em->raw($this->_('&laquo;empty&raquo;'));
-
-            return $em;
-        }
-
-        $text = \MUtil_Markup::render($bbcode, 'Bbcode', 'Html');
-
-        $div = \MUtil_Html::create('div', array('class' => 'mailpreview'));
-        $div->raw($text);
-
-        return $div;
-    }
-
-    /**
      * Creates a model for getModel(). Called only for each new $action.
      *
      * The parameters allow you to easily adapt the model to the current action. The $detailed
@@ -109,56 +99,62 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     {
         $model   = new \MUtil_Model_TableModel('gemsfaq__items');
 
-        $pages = [
-            'FAQ' => $this->_('Support and help'),
-            'Info' => $this->_('Surveys information'),
-            ];
-        $model->set('gfi_page', 'label', $this->_('Page'),
-            'multiOptions', $pages);
-        $model->set('gfi_group', 'label', $this->_('FAQ Group'), 'size', 40);
+        $model->set('gfi_group_id', 'label', $this->_('FAQ Group'),
+            'multiOptions', $this->faqUtil->getInfoGroupsList()
+        );
 
-        $model->set('gfi__iso_lang',    'label', $this->_('Language'),
+        $concat = new \MUtil_Model_Type_ConcatenatedRow(':', $this->_(', '), true);
+        $model->set('gfi_iso_langs',    'label', $this->_('Languages'),
+                    'elementClass', 'MultiCheckbox',
                     'multiOptions', $this->util->getLocalized()->getLanguages(),
-                    'tab', $this->_('Settings'), 'default', $this->project->getLocaleDefault());
+                    'default', $this->project->getLocaleDefault());
+        $concat->apply($model, 'gfi_iso_langs');
         
-        $model->set('gfi_id_order',          'label', $this->_('Order'),
+        $model->set('gfi_id_order','label', $this->_('Order'),
                 'default', 10,
                 'required', true,
                 'validators[uni]', $model->createUniqueValidator(array('gfi_id_order'))
                 );
 
-        $model->set('gfi_question', 'label', $this->_('Question'),
+        $model->set('gfi_display_method', 'label', $this->_('Display option'),
+                    'multiOptions', $this->faqParts->listItemParts()
+        );
+        $model->set('gfi_title', 'label', $this->_('Question'),
             'size', 60,
             'required', true);
 
         if ($detailed) {
-            $model->set('gfi_body', 'label', $this->_('Answer'),
-                        'cols', 60,
-                        'decorators', array('CKEditor'),
-                        'elementClass', 'textarea',
-                        'formatFunction', array($this, 'bbToHtml'),
-                        'required', true,
-                        'rows', 8
-                        );
-            $config = array(
-                'extraPlugins' => 'bbcode,availablefields',
-                'toolbar' => array(
-                    array('Source','-','Undo','Redo'),
-                    array('Find','Replace','-','SelectAll','RemoveFormat'),
-                    array('Link', 'Unlink', 'Image', 'SpecialChar'),
-                    '/',
-                    array('Bold', 'Italic','Underline'),
-                    array('NumberedList','BulletedList','-','Blockquote'),
-                    array('Maximize'),
-                    array('availablefields')
-                    )
-            );
+            $model->set('gfi_body', 'label', $this->_('Answer'));
+            $bodyDep = new CallbackDependency([$this, 'getBodySettings'], 'gfi_body', null, 'gfi_display_method');
+            // $bodyDep->setDependsOn('gfi_display_method');
+            $model->addDependency($bodyDep);
+//            $model->set('gfi_body', 'label', $this->_('Answer'),
+//                        'cols', 60,
+//                        'decorators', array('CKEditor'),
+//                        'elementClass', 'textarea',
+//                        'formatFunction', array($this, 'bbToHtml'),
+//                        'required', true,
+//                        'rows', 8
+//                        );
+//            $config = array(
+//                'extraPlugins' => 'bbcode,availablefields',
+//                'toolbar' => array(
+//                    array('Source','-','Undo','Redo'),
+//                    array('Find','Replace','-','SelectAll','RemoveFormat'),
+//                    array('Link', 'Unlink', 'Image', 'SpecialChar'),
+//                    '/',
+//                    array('Bold', 'Italic','Underline'),
+//                    array('NumberedList','BulletedList','-','Blockquote'),
+//                    array('Maximize'),
+//                    array('availablefields')
+//                    )
+//            );
             // $config['availablefields'] = ['tokenLost' => '/ask/lost'];
 
             // $config['availablefieldsLabel'] = $this->_('Fields');
-            $this->view->inlineScript()->prependScript("
-                CKEditorConfig = ".\Zend_Json::encode($config).";
-                ");
+//            $this->view->inlineScript()->prependScript("
+//                CKEditorConfig = ".\Zend_Json::encode($config).";
+//                ");
         }
 
         $model->set('gfi_active', 'label', $this->_('Active'),
@@ -173,6 +169,21 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         return $model;
     }
 
+    /**
+     * @param $displayMethod
+     * @return array
+     */
+    public function getBodySettings($displayMethod)
+    {
+        $part = $this->faqParts->getItemPart($displayMethod);
+        
+        if ($part instanceof ItemPartInterface) {
+            return $part->getBodySettings(); // $part->getBodySettings();
+        }
+        
+        return [];
+    }    
+    
     /**
      * Helper function to allow generalized statements about the items in the model.
      *

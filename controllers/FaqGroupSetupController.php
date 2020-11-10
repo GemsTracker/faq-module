@@ -57,7 +57,7 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
 
         if ($detailed) {
             $model->set('gfg_page_id', 'label', $this->_('Page'),
-                        'multiOptions', $this->faqUtil->getInfoPages()
+                        'multiOptions', $this->faqUtil->getInfoPagesList()
             );
         } else {
             $model->addTable('gemsfaq__pages', ['gfg_page_id' => 'gfp_id']);
@@ -71,7 +71,7 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
 
         $model->set('gfg_display_method', 'label', $this->_('Display option'),
                     'multiOptions', $this->faqParts->listGroupParts()
-        ); // $this->faqUtil->getGroupDisplaySnippets() // 
+        ); 
 
         $model->set('gfg_active', 'label', $this->_('Active'),
                     'elementClass', 'Checkbox',

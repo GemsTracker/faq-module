@@ -20,5 +20,10 @@ namespace GemsFaq\PageParts;
  */
 interface ItemPartInterface extends PartInterface 
 {
-
+    /**
+     * Get the model settings for the body display 
+     *
+     * @return array
+     */
+    public function getBodySettings();
 }

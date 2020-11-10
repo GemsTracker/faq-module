@@ -11,6 +11,8 @@
 
 namespace GemsFaq\PageParts\Group;
 
+use GemsFaq\PageParts\ItemPartInterface;
+
 /**
  *
  * @package    GemsFaq
@@ -18,9 +20,13 @@ namespace GemsFaq\PageParts\Group;
  * @license    New BSD License
  * @since      Class available since version 1.8.8
  */
-class InfoTitleGroupPart extends \MUtil_Translate_TranslateableAbstract 
+class InfoTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract 
     implements \GemsFaq\PageParts\GroupPartInterface
 {
+    /**
+     * @var bool
+     */
+    protected $showTitle = true;
 
     /**
      * @inheritDoc
@@ -28,6 +34,30 @@ class InfoTitleGroupPart extends \MUtil_Translate_TranslateableAbstract
     public function getExample()
     {
         // TODO: Implement getExample() method.
+    }
+
+    /**
+     * Create the snippets content
+     *
+     * This is a stub function either override getHtmlOutput() or override render()
+     *
+     * @return \MUtil_Html_HtmlInterface Something that can be rendered
+     */
+    public function getHtmlOutput()
+    {
+        $seq = \MUtil_Html::div(['class' => 'alert alert-info', 'role' => "alert"]);
+
+        if ($this->showTitle) {
+            $seq->h2($this->data['gfg_group_name'])->class = 'faq';
+        }
+
+        foreach ($this->getGroupItems() as $item) {
+            if ($item instanceof ItemPartInterface) {
+                $seq->append($item->getHtmlOutput());
+            }
+        }
+        return $seq;
+
     }
 
     /**

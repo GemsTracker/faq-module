@@ -46,7 +46,6 @@ class InfoController extends \Gems_Controller_Action
     {
         if (\MUtil_String::endsWith($methodName, 'Action')) {
             $page = $this->faqUtil->getInfoPage(substr($methodName, 0, -6));
-            \MUtil_Echo::track('hi');
             if ($page) {
                 $this->infoAction($page);
                 return null;

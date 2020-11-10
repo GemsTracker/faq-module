@@ -3,30 +3,30 @@
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Group
+ * @subpackage PageParts\Item
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
  */
 
-namespace GemsFaq\PageParts\Group;
+namespace GemsFaq\PageParts\Item;
 
-use GemsFaq\PageParts\ItemPartInterface;
+use GemsFaq\PageParts\BbCodeItemAbstract;
 
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Group
+ * @subpackage PageParts\Item
  * @license    New BSD License
  * @since      Class available since version 1.8.8
  */
-class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \GemsFaq\PageParts\GroupPartInterface
+class ListQuestionItem extends BbCodeItemAbstract
 {
     /**
-     * @var bool 
+     * @var bool
      */
     protected $showTitle = true;
-    
+
     /**
      * @inheritDoc
      */
@@ -45,25 +45,20 @@ class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \Ge
     public function getHtmlOutput()
     {
         $seq = $this->getHtmlSequence();
-        
+
         if ($this->showTitle) {
-            $seq->h2($this->data['gfg_group_name'])->class = 'faq';    
+            $seq->h4($this->data['gfi_title']);
         }
-        
-        foreach ($this->getGroupItems() as $item) {
-            if ($item instanceof ItemPartInterface) {
-                $seq->append($item->getHtmlOutput());
-            }
-        }
-        
+        $seq->pInfo()->bbcode($this->data['gfi_body']);
+
         return $seq;
     }
-    
+
     /**
      * @inheritDoc
      */
     public function getPartName()
     {
-        return $this->_('List with group title');
+        return $this->_('List question & answer');
     }
 }

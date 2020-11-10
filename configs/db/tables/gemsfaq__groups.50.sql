@@ -6,7 +6,7 @@ CREATE TABLE if not exists gemsfaq__groups (
         
         gfg_id_order                int not null default 10,
         gfg_group_name              varchar(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
-        gfg_display_method          varchar(20) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
+        gfg_display_method          varchar(255) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
 
         gfg_active                  boolean null default 1,
         
