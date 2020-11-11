@@ -16,7 +16,7 @@ namespace GemsFaq\Util;
  * @package    GemsFaq
  * @subpackage Util
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class FaqUtil extends \Gems\Util\UtilAbstract
 {

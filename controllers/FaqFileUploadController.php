@@ -14,10 +14,17 @@
  * @package    Controller
  * @subpackage FaqFileUploadController.php
  * @license    No free license, do not copy
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class FaqFileUploadController extends \Gems_Default_FileActionAbstract
 {
+    /**
+     * Should the action look recursively through the files
+     *
+     * @var boolean
+     */
+    public $recursive = true;
+    
     /**
      * @inheritDoc
      */

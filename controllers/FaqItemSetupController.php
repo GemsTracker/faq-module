@@ -18,7 +18,7 @@ use MUtil\Model\Dependency\CallbackDependency;
  * @subpackage Controller
  * @copyright  Copyright (c) 2020, Maasstad Ziekenhuis and MagnaFacta B.V.
  * @license    No free license, do not copy
- * @since      Class available since version 1.8.8 14-May-2020 18:52:33
+ * @since      Class available since version 1.9.1 14-May-2020 18:52:33
  */
 class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
 {

@@ -3,7 +3,7 @@
 /**
  *
  *
- * @package    SampleModule
+ * @package    GemsFaq
  * @subpackage Module
  * @author     jvangestel@gmail.com
  * @license    New BSD License
@@ -23,10 +23,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  *
- * @package    GemsRandomizer
+ * @package    GemsFaq
  * @subpackage Module
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class ModuleSubscriber implements EventSubscriberInterface
 {

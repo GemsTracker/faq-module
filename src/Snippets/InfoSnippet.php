@@ -18,7 +18,7 @@ use GemsFaq\PageParts\GroupPartInterface;
  * @package    GemsFaq
  * @subpackage Snippets
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
 {

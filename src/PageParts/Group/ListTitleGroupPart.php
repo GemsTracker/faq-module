@@ -18,7 +18,7 @@ use GemsFaq\PageParts\ItemPartInterface;
  * @package    GemsFaq
  * @subpackage PageParts\Group
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \GemsFaq\PageParts\GroupPartInterface
 {
@@ -49,8 +49,9 @@ class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \Ge
         if ($this->showTitle) {
             $seq->h2($this->data['gfg_group_name'])->class = 'faq';    
         }
-        
+        \MUtil_Echo::track('hi1');
         foreach ($this->getGroupItems() as $item) {
+            \MUtil_Echo::track('hi2');
             if ($item instanceof ItemPartInterface) {
                 $seq->append($item->getHtmlOutput());
             }

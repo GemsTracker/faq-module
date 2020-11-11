@@ -11,14 +11,16 @@
 
 namespace GemsFaq\PageParts;
 
+use Zalt\Loader\Translate\TranslateableAbstract;
+
 /**
  *
  * @package    GemsFaq
  * @subpackage PageParts
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
-abstract class GroupAbstract extends \MUtil_Translate_TranslateableAbstract implements GroupPartInterface
+abstract class GroupAbstract extends TranslateableAbstract implements GroupPartInterface
 {
     /**
      * @var Source data 

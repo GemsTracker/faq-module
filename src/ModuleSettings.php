@@ -2,7 +2,7 @@
 
 /**
  *
- * @package    SampleModule
+ * @package    GemsFaq
  * @subpackage Module
  * @author     jvangestel@gmail.com
  * @license    New BSD License
@@ -14,9 +14,10 @@ use Gems\Modules\ModuleSettingsAbstract;
 
 /**
  *
- * @package    SampleModule
+ * @package    GemsFaq
  * @subpackage Module
- * @since      New BSD License
+ * @license    New BSD License
+ * @since      Class available since version 1.9.1
  */
 class ModuleSettings extends ModuleSettingsAbstract
 {

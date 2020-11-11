@@ -16,7 +16,7 @@ namespace GemsFaq\PageParts;
  * @package    GemsFaq
  * @subpackage PageParts
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 interface ItemPartInterface extends PartInterface 
 {

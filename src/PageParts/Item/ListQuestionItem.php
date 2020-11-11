@@ -18,7 +18,7 @@ use GemsFaq\PageParts\BbCodeItemAbstract;
  * @package    GemsFaq
  * @subpackage PageParts\Item
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class ListQuestionItem extends BbCodeItemAbstract
 {

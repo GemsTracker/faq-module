@@ -14,7 +14,7 @@
  * @package    GemsFaq
  * @subpackage Controller
  * @license    New BSD License
- * @since      Class available since version 1.8.8
+ * @since      Class available since version 1.9.1
  */
 class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
 {
