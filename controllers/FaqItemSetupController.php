@@ -27,9 +27,15 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      *
      * @var mixed String or array of snippets name
      */
-    protected $autofilterParameters = array(
-        'extraSort'   => array('gfi_id_order' => SORT_ASC),
-        );
+    protected $autofilterParameters = [
+        'extraSort' => [
+            'gfp_action' => SORT_ASC,
+            'gfp_label' => SORT_ASC,
+            'gfg_id_order' => SORT_ASC,
+            'gfg_id' => SORT_ASC,
+            'gfi_id_order' => SORT_ASC,
+        ],
+    ];
 
     /**
      * The snippets used for the create and edit actions.
@@ -104,10 +110,25 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      */
     protected function createModel($detailed, $action)
     {
-        $model   = new \MUtil_Model_TableModel('gemsfaq__items');
+        $model = new \MUtil_Model_JoinModel('gemsfaq__items', 'gemsfaq__items', 'gfi');
 
-        $model->set('gfi_group_id', 'label', $this->_('FAQ Group'),
-            'multiOptions', $this->faqUtil->getInfoGroupsList()
+        if ($detailed) {
+            $model->set('gfi_group_id', 'label', $this->_('FAQ Group'),
+                        'multiOptions', $this->faqUtil->getInfoGroupsList()
+            );
+        } else {
+            $model->addTable('gemsfaq__groups', ['gfi_group_id' => 'gfg_id']);
+            $model->addTable('gemsfaq__pages', ['gfg_page_id' => 'gfp_id']);
+            
+            $model->set('gfp_label', 'label', $this->_('Page'));
+            $model->set('gfg_group_name', 'label', $this->_('Group title'));
+            $model->set('gfg_id_order', 'label', $this->_('Group Order'));
+        }
+
+        $model->set('gfi_id_order','label', $this->_('Order'),
+                    'default', $this->faqUtil->getItemOrderDefault(),
+                    'required', true,
+                    'validators[uni]', $model->createUniqueValidator(array('gfi_id_order'))
         );
 
         $concat = new \MUtil_Model_Type_ConcatenatedRow(':', $this->_(', '), true);
@@ -117,12 +138,6 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
                     'default', $this->project->getLocaleDefault());
         $concat->apply($model, 'gfi_iso_langs');
         
-        $model->set('gfi_id_order','label', $this->_('Order'),
-                'default', $this->faqUtil->getItemOrderDefault(),
-                'required', true,
-                'validators[uni]', $model->createUniqueValidator(array('gfi_id_order'))
-                );
-
         $options = $this->faqParts->listItemParts();
         $model->set('gfi_display_method', 'label', $this->_('Display option'),
                     'default', key($options),

@@ -4,7 +4,7 @@ CREATE TABLE if not exists gemsfaq__items (
         gfi_id                      bigint unsigned not null auto_increment,
 
 
-        gfi_group_id                bigint unsigned not null references gfg_id (gfp_id),
+        gfi_group_id                bigint unsigned not null references gemsfaq__groups (gfg_id),
         
         gfi_id_order                int not null default 10,
         gfi_iso_langs               varchar(40) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null default 'en',
