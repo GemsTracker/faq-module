@@ -19,7 +19,8 @@ CREATE TABLE if not exists gemsfaq__items (
         gfi_created                 timestamp not null,
         gfi_created_by              bigint unsigned not null,
 
-        PRIMARY KEY (gfi_id)
+        PRIMARY KEY (gfi_id),
+        UNIQUE KEY(gfi_group_id, gfi_id_order)
     )
     ENGINE=InnoDB
     auto_increment = 8000

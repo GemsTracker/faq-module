@@ -91,6 +91,27 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
 
     /**
      * @param int $groupid
+     * @return GroupPartInterface
+     */
+    public function getGroup($groupId)
+    {
+        $group = $this->db->fetchRow("SELECT * FROM gemsfaq__groups WHERE gfg_id = ?", $groupId);
+
+        if (! $group) {
+            return null;
+        }
+        
+        $part = $this->getGroupPart($group['gfg_display_method']);
+        if ($part instanceof GroupPartInterface) {
+            $part->exchangeArray($group);
+            return $part;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param int $groupid
      * @return array itemId => ItemPartInterface
      */
     public function getGroupItems($groupId)

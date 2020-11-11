@@ -32,6 +32,13 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         );
 
     /**
+     * The snippets used for the create and edit actions.
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $createEditSnippets = ['ItemEditSnippet'];
+    
+    /**
      * The parameters used for the deactivate action.
      *
      * When the value is a function name of that object, then that functions is executed
@@ -111,13 +118,15 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         $concat->apply($model, 'gfi_iso_langs');
         
         $model->set('gfi_id_order','label', $this->_('Order'),
-                'default', 10,
+                'default', $this->faqUtil->getItemOrderDefault(),
                 'required', true,
                 'validators[uni]', $model->createUniqueValidator(array('gfi_id_order'))
                 );
 
+        $options = $this->faqParts->listItemParts();
         $model->set('gfi_display_method', 'label', $this->_('Display option'),
-                    'multiOptions', $this->faqParts->listItemParts()
+                    'default', key($options),
+                    'multiOptions', $options
         );
         $model->set('gfi_title', 'label', $this->_('Question'),
             'size', 60,
@@ -128,33 +137,6 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
             $bodyDep = new CallbackDependency([$this, 'getBodySettings'], 'gfi_body', null, 'gfi_display_method');
             // $bodyDep->setDependsOn('gfi_display_method');
             $model->addDependency($bodyDep);
-//            $model->set('gfi_body', 'label', $this->_('Answer'),
-//                        'cols', 60,
-//                        'decorators', array('CKEditor'),
-//                        'elementClass', 'textarea',
-//                        'formatFunction', array($this, 'bbToHtml'),
-//                        'required', true,
-//                        'rows', 8
-//                        );
-//            $config = array(
-//                'extraPlugins' => 'bbcode,availablefields',
-//                'toolbar' => array(
-//                    array('Source','-','Undo','Redo'),
-//                    array('Find','Replace','-','SelectAll','RemoveFormat'),
-//                    array('Link', 'Unlink', 'Image', 'SpecialChar'),
-//                    '/',
-//                    array('Bold', 'Italic','Underline'),
-//                    array('NumberedList','BulletedList','-','Blockquote'),
-//                    array('Maximize'),
-//                    array('availablefields')
-//                    )
-//            );
-            // $config['availablefields'] = ['tokenLost' => '/ask/lost'];
-
-            // $config['availablefieldsLabel'] = $this->_('Fields');
-//            $this->view->inlineScript()->prependScript("
-//                CKEditorConfig = ".\Zend_Json::encode($config).";
-//                ");
         }
 
         $model->set('gfi_active', 'label', $this->_('Active'),
@@ -175,10 +157,13 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      */
     public function getBodySettings($displayMethod)
     {
-        $part = $this->faqParts->getItemPart($displayMethod);
+        if (! $displayMethod) {
+            return [];
+        }
         
+        $part = $this->faqParts->getItemPart($displayMethod);
         if ($part instanceof ItemPartInterface) {
-            return $part->getBodySettings(); // $part->getBodySettings();
+            return $part->getBodySettings();
         }
         
         return [];

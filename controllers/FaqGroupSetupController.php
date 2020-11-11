@@ -39,6 +39,13 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
     public $cacheTags = array('faq_groups');
 
     /**
+     * The snippets used for the create and edit actions.
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $createEditSnippets = ['GroupEditSnippet'];
+    
+    /**
      * @var \GemsFaq\FaqPageParts
      */
     public $faqParts;
@@ -48,6 +55,28 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
      */
     public $faqUtil;
 
+    /**
+     * The parameters used for the show action
+     *
+     * When the value is a function name of that object, then that functions is executed
+     * with the array key as single parameter and the return value is set as the used value
+     * - unless the key is an integer in which case the code is executed but the return value
+     * is not stored.
+     *
+     * @var array Mixed key => value array for snippet initialization
+     */
+    protected $showParameters = [
+        'groupId'       => 'getGroupId',
+        'inlineExample' => true,
+    ];
+    
+    /**
+     * The snippets used for the show action
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $showSnippets = ['Generic\\ContentTitleSnippet', 'ModelItemTableSnippetGeneric', 'InfoSnippet'];
+    
     /**
      * @inheritDoc
      */
@@ -65,22 +94,38 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
         }
 
         $model->set('gfg_id_order', 'label', $this->_('Display Order'),
-            'description', $this->_('The order of group display within a page')
+            'description', $this->_('The order of group for display within a page'),
+            'default', $this->faqUtil->getGroupOrderDefault(),
+            'filters[int]', 'Int',
+            'validators[unique]', $model->createUniqueValidator('gfg_id_order', ['gfg_id', 'gfg_page_id'])
             );
         $model->set('gfg_group_name', 'label', $this->_('Group title'));
 
+        $options = $this->faqParts->listGroupParts();
         $model->set('gfg_display_method', 'label', $this->_('Display option'),
-                    'multiOptions', $this->faqParts->listGroupParts()
+                    'default', key($options),
+                    'multiOptions', $options,
+                    'onchange', 'this.form.submit()'
         ); 
 
         $model->set('gfg_active', 'label', $this->_('Active'),
                     'elementClass', 'Checkbox',
                     'multiOptions', $this->util->getTranslated()->getYesNo()
         );
+        
+        
         // $model->setDeleteValues('gfi_active', 0);
         $model->addColumn(new \Zend_Db_Expr("CASE WHEN gfg_active = 1 THEN '' ELSE 'deleted' END"), 'row_class');
 
         return $model;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getGroupId()
+    {
+        return $this->getRequest()->getParam(\MUtil_Model::REQUEST_ID);
     }
 
     /**

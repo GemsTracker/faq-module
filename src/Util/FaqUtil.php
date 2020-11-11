@@ -112,7 +112,7 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         try {
             $pages = $this->db->fetchAll("SELECT * FROM gemsfaq__pages WHERE gfp_active = 1");
         } catch (\Zend_Db_Statement_Exception $zdse) {
-            \MUtil_Echo::track($zdse->getMessage());
+            // \MUtil_Echo::track($zdse->getMessage());
             return null;
         }
         // \MUtil_Echo::track($pages);
@@ -154,18 +154,18 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     }
 
     /**
-     * @return array controller/action => label
+     * @return int A new default value for a group
      */
-    public function getMenuPositionOptions()
+    public function getGroupOrderDefault()
     {
-        $menuOptions = [];
-
-        $this->_getSubMenuOptions($this->menu, $menuOptions, '');
-
-        // \MUtil_Echo::track($menuOptions);
-        return $menuOptions;
+        $val = $this->db->fetchOne("SELECT MAX(gfg_id_order) FROM gemsfaq__groups");
+        
+        if (is_int($val)) {
+            return $val + 10;
+        }
+        return 10;
     }
-
+    
     /**
      * @param string $action
      * @return mixed
@@ -197,6 +197,15 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     }
 
     /**
+     * @param string $pageId
+     * @return mixed
+     */
+    public function getInfoPageById($pageId)
+    {
+        return $this->db->fetchRow("SELECT * FROM gemsfaq__pages WHERE gfp_active = 1 AND gfp_id = ?", $pageId);
+    }
+    
+    /**
      * @param string $action
      * @return mixed
      */
@@ -205,6 +214,32 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         $sql = "SELECT gfp_id, gfp_label FROM gemsfaq__pages ORDER BY gfp_label";
         
         return  $this->_getSelectPairsCached(__FUNCTION__, $sql, null, 'faq_pages');
+    }
+
+    /**
+     * @return int A new default value for an item
+     */
+    public function getItemOrderDefault()
+    {
+        $val = $this->db->fetchOne("SELECT MAX(gfi_id_order) FROM gemsfaq__items");
+
+        if (is_int($val)) {
+            return $val + 10;
+        }
+        return 10;
+    }
+    
+    /**
+     * @return array controller/action => label
+     */
+    public function getMenuPositionOptions()
+    {
+        $menuOptions = [];
+
+        $this->_getSubMenuOptions($this->menu, $menuOptions, '');
+
+        // \MUtil_Echo::track($menuOptions);
+        return $menuOptions;
     }
 
     /**

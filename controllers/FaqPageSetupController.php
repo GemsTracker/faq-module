@@ -38,6 +38,30 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     public $cacheTags = array('faq_pages');
 
     /**
+     * The snippets used for the create and edit actions.
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $createEditSnippets = ['ModelFormSnippetGeneric', 'InfoSnippet'];
+
+    /**
+     * The parameters used for the edit actions, overrules any values in
+     * $this->createEditParameters.
+     *
+     * When the value is a function name of that object, then that functions is executed
+     * with the array key as single parameter and the return value is set as the used value
+     * - unless the key is an integer in which case the code is executed but the return value
+     * is not stored.
+     *
+     * @var array Mixed key => value array for snippet initialization
+     */
+    protected $editParameters = [
+        'infoTitle'     => 'getInfoTitle',
+        'inlineExample' => true,
+        'pageId'        => 'getPageId',
+    ];
+
+    /**
      * @var GemsFaq\Util\FaqUtil
      */
     public $faqUtil;
@@ -51,6 +75,29 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      * @var \Gems_Util
      */
     public $util;
+
+    /**
+     * The parameters used for the show action
+     *
+     * When the value is a function name of that object, then that functions is executed
+     * with the array key as single parameter and the return value is set as the used value
+     * - unless the key is an integer in which case the code is executed but the return value
+     * is not stored.
+     *
+     * @var array Mixed key => value array for snippet initialization
+     */
+    protected $showParameters = [
+        'infoTitle'     => 'getInfoTitle',
+        'inlineExample' => true,
+        'pageId'        => 'getPageId',
+        ];
+    
+    /**
+     * The snippets used for the show action
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $showSnippets = ['Generic\\ContentTitleSnippet', 'ModelItemTableSnippetGeneric', 'InfoSnippet'];
     
     /**
      * @inheritDoc
@@ -59,8 +106,14 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     {
         $model = new \MUtil_Model_TableModel('gemsfaq__pages');
 
+        $regex = new \Zend_Validate_Regex('/^[-a-z0-9]+$/');
+        $regex->setMessage($this->_('Only lowercase letters, numbers and - dashes are allowed.'), \Zend_Validate_Regex::NOT_MATCH);
+        
         $model->set('gfp_action', 'label', $this->_('Action name'),
-            'description', $this->_('A unique, readable lowercase name containing only letters, numbers and - dashes.')
+            'description', $this->_('A unique, readable lowercase name containing only letters, numbers and - dashes.'),
+            'filters[lcase]', 'StringToLower',
+            'validators[regex]', $regex,
+            'validators[unique]', $model->createUniqueValidator('gfp_action', ['gfp_id'])
             );
 
         $model->set('gfp_label', 'label', $this->_('(Short) menu name'));
@@ -85,6 +138,30 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         return $model;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getInfoTitle()
+    {
+        $page = $this->faqUtil->getInfoPageById($this->getPageId());
+        
+        if ($page) {
+            if ($page['gfp_title']) {
+                return $page['gfp_title'];
+            } else {
+                return $page['gfp_label'];
+            }
+        } 
+    }
+    
+    /**
+     * @return mixed|null
+     */
+    public function getPageId()
+    {
+        return $this->getRequest()->getParam(\MUtil_Model::REQUEST_ID);
+    }
+    
     /**
      * Helper function to allow generalized statements about the items in the model.
      *

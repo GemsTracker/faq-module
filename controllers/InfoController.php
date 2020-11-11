@@ -58,9 +58,9 @@ class InfoController extends \Gems_Controller_Action
     {
         $params['pageId'] = $page['gfp_id'];
         if ($page['gfp_title']) {
-            $params['title'] = $page['gfp_title'];
+            $params['infoTitle'] = $page['gfp_title'];
         } else {
-            $params['title'] = $page['gfp_label'];
+            $params['infoTitle'] = $page['gfp_label'];
         }
         $this->addSnippet('InfoSnippet', $params);
     }

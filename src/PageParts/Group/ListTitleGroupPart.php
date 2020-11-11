@@ -28,14 +28,6 @@ class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \Ge
     protected $showTitle = true;
     
     /**
-     * @inheritDoc
-     */
-    public function getExample()
-    {
-        // TODO: Implement getExample() method.
-    }
-
-    /**
      * Create the snippets content
      *
      * This is a stub function either override getHtmlOutput() or override render()
@@ -49,9 +41,8 @@ class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \Ge
         if ($this->showTitle) {
             $seq->h2($this->data['gfg_group_name'])->class = 'faq';    
         }
-        \MUtil_Echo::track('hi1');
+
         foreach ($this->getGroupItems() as $item) {
-            \MUtil_Echo::track('hi2');
             if ($item instanceof ItemPartInterface) {
                 $seq->append($item->getHtmlOutput());
             }

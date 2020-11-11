@@ -25,17 +25,27 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
     /**
      * @var \GemsFaq\FaqPageParts
      */
-    public $faqParts;
+    protected $faqParts;
 
     /**
-     * @var int
+     * @var int Show a single group
      */
-    public $pageId;
-
+    protected $groupId;
+    
     /**
      * @var string
      */
-    public $title;
+    protected $infoTitle;
+
+    /**
+     * @var bool 
+     */
+    protected $inlineExample = false;
+    
+    /**
+     * @var int
+     */
+    protected $pageId;
 
     /**
      * Create the snippets content
@@ -47,20 +57,41 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
      */
     public function getHtmlOutput(\Zend_View_Abstract $view)
     {
-        $html = \MUtil_Html::div(['class' => 'info-pages']);
-
-        if ($this->title) {
-            $html->h1($this->title);
-        }
+        $html = \MUtil_Html::div(['class' => 'info-pages' . ($this->inlineExample ? ' inline-example' : '')]);
+        $div = $html->div(['class' => 'info-main', 'renderClosingTag' => true]);
         
-        $groups = $this->faqParts->getPageGroups($this->pageId);
+        if ($this->infoTitle) {
+            $div->h1($this->infoTitle);
+        }
+
+        if ($this->groupId) {
+            $groups = [$this->faqParts->getGroup($this->groupId)];
+        } else {
+            $groups = $this->faqParts->getPageGroups($this->pageId);
+        }
         
         foreach ($groups as $group) {
             if ($group instanceof GroupPartInterface) {
-                $html->append($group->getHtmlOutput());
+                $div->append($group->getHtmlOutput());
             }
         }
         
         return $html;
+    }
+    
+    /**
+     * The place to check if the data set in the snippet is valid
+     * to generate the snippet.
+     *
+     * When invalid data should result in an error, you can throw it
+     * here but you can also perform the check in the
+     * checkRegistryRequestsAnswers() function from the
+     * {@see \MUtil_Registry_TargetInterface}.
+     *
+     * @return boolean
+     */
+    public function hasHtmlOutput()
+    {
+        return $this->pageId || $this->groupId;
     }
 }

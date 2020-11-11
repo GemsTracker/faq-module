@@ -15,7 +15,8 @@ CREATE TABLE if not exists gemsfaq__groups (
         gfg_created                 timestamp not null,
         gfg_created_by              bigint unsigned not null,
 
-        PRIMARY KEY (gfg_id)
+        PRIMARY KEY (gfg_id),
+        UNIQUE KEY (gfg_page_id, gfg_id_order)
     )
     ENGINE=InnoDB
     auto_increment = 600

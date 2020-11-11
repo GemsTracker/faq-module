@@ -29,14 +29,6 @@ class InfoTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract
     protected $showTitle = true;
 
     /**
-     * @inheritDoc
-     */
-    public function getExample()
-    {
-        // TODO: Implement getExample() method.
-    }
-
-    /**
      * Create the snippets content
      *
      * This is a stub function either override getHtmlOutput() or override render()
