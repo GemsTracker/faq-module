@@ -43,7 +43,7 @@ class VideoItem extends \GemsFaq\PageParts\ItemAbstract
      */
     public function getExample()
     {
-        return \MUtil_Html_ImgElement::imgFile('faq/video.png');   
+        return \MUtil_Html_ImgElement::img(['src' => 'faq/video.png']);   
     }
     
     /**
