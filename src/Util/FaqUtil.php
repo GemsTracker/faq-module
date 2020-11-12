@@ -31,6 +31,11 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     protected $faqParts;
 
     /**
+     * @var \Gems_Loader
+     */
+    protected $loader;
+    
+    /**
      * @var \Gems_Menu
      */
     protected $menu;
@@ -107,7 +112,8 @@ class FaqUtil extends \Gems\Util\UtilAbstract
      */
     public function applyToMenu(\Gems_Menu $menu)
     {
-        $this->menu = $menu;
+        $this->loader = $this->source;
+        $this->menu   = $menu;
         
         try {
             $pages = $this->db->fetchAll("SELECT * FROM gemsfaq__pages WHERE gfp_active = 1");
@@ -154,6 +160,38 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     }
 
     /**
+     * @param boolean $detailed True when the current action is not in $summarizedActions.
+     * @param string  $mask An optional regex file mask, use of / for directory seperator required
+     * @return \MUtil_Model_FolderModel
+     * @throws \Zend_Exception
+     */
+    public function getDocumentModel($detailed, $mask = '')
+    {
+        return $this->loader->getModels()->getFileModel(
+            $this->getDocumentRoot(),
+            $detailed,
+            $mask,
+            true,
+            true
+        );
+    }
+    
+    /**
+     * @return string The file upload root
+     * @throws \Zend_Exception
+     */
+    public function getDocumentRoot()
+    {
+        $dir = GEMS_ROOT_DIR . '/var/uploads/info';
+
+        if (! file_exists($dir)) {
+            \MUtil_File::ensureDir($dir);
+        }
+        
+        return $dir;
+    }
+
+    /**
      * @return int A new default value for a group
      */
     public function getGroupOrderDefault()
@@ -165,7 +203,21 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         }
         return 10;
     }
-    
+
+    /**
+     * @param mixed $content
+     * @param false $example
+     * @return \MUtil_Html_HtmlInterface
+     */
+    public function getInfoDiv($content, $example = false)
+    {
+        $div = \MUtil_Html::div(['class' => 'info-pages' . ($example ? ' inline-example' : '')]);
+        $div2 = $div->div(['class' => 'info-main', 'renderClosingTag' => true])
+                    ->div($content, ['renderClosingTag' => true]);
+
+        return $div;
+    }
+
     /**
      * @param string $action
      * @return mixed
@@ -214,6 +266,23 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         $sql = "SELECT gfp_id, gfp_label FROM gemsfaq__pages ORDER BY gfp_label";
         
         return  $this->_getSelectPairsCached(__FUNCTION__, $sql, null, 'faq_pages');
+    }
+
+    /**
+     * @param mixed $content
+     * @return \MUtil_Html_HtmlInterface
+     */
+    public function getItemExplanantion($content)
+    {
+        if (! $content) {
+            return;
+        }
+        $div = \MUtil_Html::div(['class' => 'alert alert-info', 'role' => "alert"]);
+
+        $div->h4($this->_('Instructions'));
+        $div->append($content);
+
+        return $div;
     }
 
     /**

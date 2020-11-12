@@ -3,35 +3,29 @@
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts
+ * @subpackage PageParts\Item
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
  */
 
-namespace GemsFaq\PageParts;
+namespace GemsFaq\PageParts\Item;
 
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts
+ * @subpackage PageParts\Item
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ExampleItemPart implements ItemPartInterface
+class ShowImageItem //  extends \GemsFaq\PageParts\ItemAbstract
 {
     /**
      * @inheritDoc
      */
     public function getBodySettings()
     {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function exchangeArray(array $data)
-    {
+        // TODO: Implement getBodySettings() method.
     }
 
     /**
@@ -39,6 +33,7 @@ class ExampleItemPart implements ItemPartInterface
      */
     public function getExample()
     {
+        return \MUtil_Html_ImgElement::img(['src' => 'faq/logo-carefacts.png', 'alt' => 'CareFacts']);
     }
 
     /**
@@ -46,9 +41,7 @@ class ExampleItemPart implements ItemPartInterface
      */
     public function getHtmlOutput()
     {
-        static $count = 1;
-        
-        return \MUtil_Html::create('p', "Example item " . $count++);
+        // TODO: Implement getHtmlOutput() method.
     }
 
     /**
@@ -58,7 +51,7 @@ class ExampleItemPart implements ItemPartInterface
      */
     public function getInstructions()
     {
-        return null;
+        return $this->_("You can select images after uploading them to Info Files");
     }
 
     /**
@@ -66,5 +59,6 @@ class ExampleItemPart implements ItemPartInterface
      */
     public function getPartName()
     {
+        return $this->_('Show an image');
     }
 }

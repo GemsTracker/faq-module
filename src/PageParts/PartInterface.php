@@ -37,11 +37,16 @@ interface PartInterface
     /**
      * Create the snippets content
      *
-     * This is a stub function either override getHtmlOutput() or override render()
-     *
      * @return \MUtil_Html_HtmlInterface Something that can be rendered
      */
     public function getHtmlOutput();
+
+    /**
+     * Optional additional instructions
+     *
+     * @return \MUtil_Html_HtmlInterface Something that can be rendered
+     */
+    public function getInstructions();
 
     /**
      * Get the name to use in dropdowns for this condition

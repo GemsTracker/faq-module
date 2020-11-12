@@ -100,4 +100,14 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     {
         return new \MUtil_Html_Sequence();
     }
+
+    /**
+     * Optional additional instructions
+     *
+     * @return \MUtil_Html_HtmlInterface Something that can be rendered
+     */
+    public function getInstructions()
+    {
+        return null;
+    }
 }

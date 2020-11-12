@@ -26,6 +26,11 @@ class ItemEditSnippet extends \Gems_Snippets_ModelFormSnippetGeneric
     public $faqParts;
 
     /**
+     * @var \GemsFaq\Util\FaqUtil
+     */
+    public $faqUtil;
+    
+    /**
      * Create the snippets content
      *
      * This is a stub function either override getHtmlOutput() or override render()
@@ -41,8 +46,8 @@ class ItemEditSnippet extends \Gems_Snippets_ModelFormSnippetGeneric
             $part = $this->faqParts->getItemPart($this->formData['gfi_display_method']);
             
             if ($part) {
-                $htmlDiv->div(['class' => 'info-pages inline-example'])
-                        ->div(['class' => 'info-main', 'renderClosingTag' => true])->div($part->getExample());
+                $htmlDiv[] = $this->faqUtil->getInfoDiv($part->getExample(), true);
+                $htmlDiv[] = $this->faqUtil->getItemExplanantion($part->getInstructions());
             }
         }
         return $htmlDiv;

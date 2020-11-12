@@ -19,21 +19,32 @@
 class FaqFileUploadController extends \Gems_Default_FileActionAbstract
 {
     /**
-     * Should the action look recursively through the files
-     *
-     * @var boolean
+     * @var \GemsFaq\Util\FaqUtil
      */
-    public $recursive = true;
+    public $faqUtil; 
     
     /**
      * @inheritDoc
      */
     public function getPath($detailed, $action)
     {
-        $dir = GEMS_ROOT_DIR . '/var/uploads/info';
-        
-        \MUtil_File::ensureDir($dir);
-        
-        return $dir;
+        return $this->faqUtil->getDocumentRoot();
     }
+    
+    /**
+     * Creates a model for getModel(). Called only for each new $action.
+     *
+     * The parameters allow you to easily adapt the model to the current action. The $detailed
+     * parameter was added, because the most common use of action is a split between detailed
+     * and summarized actions.
+     *
+     * @param boolean $detailed True when the current action is not in $summarizedActions.
+     * @param string $action The current action.
+     * @return \MUtil_Model_ModelAbstract
+     */
+    public function createModel($detailed, $action)
+    {
+        return $this->faqUtil->getDocumentModel($detailed);
+    }
+
 }

@@ -57,11 +57,10 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
      */
     public function getHtmlOutput(\Zend_View_Abstract $view)
     {
-        $html = \MUtil_Html::div(['class' => 'info-pages' . ($this->inlineExample ? ' inline-example' : '')]);
-        $div = $html->div(['class' => 'info-main', 'renderClosingTag' => true]);
+        $seq = new \MUtil_Html_Sequence();
         
         if ($this->infoTitle) {
-            $div->h1($this->infoTitle);
+            $seq->h1($this->infoTitle);
         }
 
         if ($this->groupId) {
@@ -72,11 +71,11 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
         
         foreach ($groups as $group) {
             if ($group instanceof GroupPartInterface) {
-                $div->append($group->getHtmlOutput());
+                $seq->append($group->getHtmlOutput());
             }
         }
         
-        return $html;
+        return $this->faqParts->getInfoDiv($seq);
     }
     
     /**

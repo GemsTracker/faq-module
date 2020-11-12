@@ -110,7 +110,7 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      */
     protected function createModel($detailed, $action)
     {
-        $model = new \MUtil_Model_JoinModel('gemsfaq__items', 'gemsfaq__items', 'gfi');
+        $model = new \Gems_Model_JoinModel('gemsfaq__items', 'gemsfaq__items', 'gfi');
 
         if ($detailed) {
             $options = $this->faqUtil->getInfoGroupsList();
