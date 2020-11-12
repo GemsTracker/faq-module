@@ -28,6 +28,11 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
     protected $faqParts;
 
     /**
+     * @var \GemsFaq\Util\FaqUtil
+     */
+    protected $faqUtil; 
+
+    /**
      * @var int Show a single group
      */
     protected $groupId;
@@ -75,7 +80,7 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
             }
         }
         
-        return $this->faqParts->getInfoDiv($seq);
+        return $this->faqUtil->getInfoDiv($seq);
     }
     
     /**

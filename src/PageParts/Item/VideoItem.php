@@ -26,7 +26,7 @@ class VideoItem extends \GemsFaq\PageParts\ItemAbstract
      */
     public function getBodySettings()
     {
-        $regex = new \Zend_Validate_Regex('/^<iframe\\s.*src\\s?=.+>.*<\\/iframe>$/');
+        $regex = new \Zend_Validate_Regex('/^<iframe\\s(.*\\s)src\\s?=.+>.*<\\/iframe>$/');
         $regex->setMessage($this->_('Input must be in the format <iframe src=".." ></iframe>.'), \Zend_Validate_Regex::NOT_MATCH);
         return [
             'label'                     => $this->_('Inline video'),
