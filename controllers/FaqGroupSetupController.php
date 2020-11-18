@@ -56,6 +56,13 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
     public $faqUtil;
 
     /**
+     * The snippets used for the index action, before those in autofilter
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $indexStartSnippets = array('Generic\\ContentTitleSnippet', 'GroupSearchFormSnippet');
+
+    /**
      * The parameters used for the show action
      *
      * When the value is a function name of that object, then that functions is executed
@@ -112,8 +119,10 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
                     'elementClass', 'Checkbox',
                     'multiOptions', $this->util->getTranslated()->getYesNo()
         );
-        
-        
+        $model->addColumn(new \Zend_Db_Expr("(SELECT COUNT(gfi_id) FROM gemsfaq__items WHERE gfg_id = gfi_group_id)"), 'item_count');
+        $model->set('item_count', 'label', $this->_('Items'),
+                    'elementClass', 'Exhibitor');
+
         // $model->setDeleteValues('gfi_active', 0);
         $model->addColumn(new \Zend_Db_Expr("CASE WHEN gfg_active = 1 THEN '' ELSE 'deleted' END"), 'row_class');
 

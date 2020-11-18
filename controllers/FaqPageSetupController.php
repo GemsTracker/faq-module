@@ -19,6 +19,11 @@
 class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
 {
     /**
+     * @var \MUtil_Acl
+     */
+    public $acl;
+    
+    /**
      * The snippets used for the autofilter action.
      *
      * @var mixed String or array of snippets name
@@ -35,15 +40,20 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      *
      * @var array
      */
-    public $cacheTags = array('faq_pages');
+    public $cacheTags = ['faq_pages', 'gems_acl', 'roles', 'group', 'groups'];
 
     /**
      * The snippets used for the create and edit actions.
      *
      * @var mixed String or array of snippets name
      */
-    protected $createEditSnippets = ['ModelFormSnippetGeneric', 'InfoSnippet'];
+    protected $createEditSnippets = ['PageEditSnippet', 'InfoSnippet'];
 
+    /**
+     * @var \Zend_Db_Adapter_Abstract
+     */
+    public $db;
+    
     /**
      * The parameters used for the edit actions, overrules any values in
      * $this->createEditParameters.
@@ -65,6 +75,13 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
      * @var GemsFaq\Util\FaqUtil
      */
     public $faqUtil;
+
+    /**
+     * The snippets used for the index action, before those in autofilter
+     *
+     * @var mixed String or array of snippets name
+     */
+    protected $indexStartSnippets = array('Generic\\ContentTitleSnippet', 'PageSearchFormSnippet');
     
     /**
      * @var \Gems_Menu 
@@ -130,6 +147,27 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
                     'elementClass', 'Checkbox',
                     'multiOptions', $this->util->getTranslated()->getYesNo()
         );
+
+        $model->addColumn(new \Zend_Db_Expr("(SELECT COUNT(gfg_id) FROM gemsfaq__groups WHERE gfp_id = gfg_page_id)"), 'group_count');
+        $model->set('group_count', 'label', $this->_('Groups'),
+                    'elementClass', 'Exhibitor');
+
+        if ($detailed) {
+            $model->addColumn('gfp_action', 'roles');
+            $options = $this->util->getDbLookup()->getRoles();
+            unset($options['master']);
+            // \MUtil_Echo::track($options);
+            
+            $model->set('roles', 'label', $this->_('For roles'),
+                        'description', $this->_('Roles that can see this page'),
+                        'elementClass', 'MultiCheckbox',
+                        'formatFunction', [$this, 'formatRoles'],
+                        'multiOptions', $options
+            );
+            $model->setOnLoad('roles', [$this, 'loadRoles']);
+            $model->setOnSave('roles', [$this, 'saveRoles']);
+        }
+
         // $model->setDeleteValues('gfi_active', 0);
         $model->addColumn(new \Zend_Db_Expr("CASE WHEN gfp_active = 1 THEN '' ELSE 'deleted' END"), 'row_class');
 
@@ -171,5 +209,104 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     public function getTopic($count = 1)
     {
         return $this->plural('info page', 'info pages', $count);
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function formatRoles($value) 
+    {
+        if (is_array($value)) {
+            return implode($this->_(', '), $value);
+        }    
+        
+        return $value;
+    }
+    
+    /**
+     * A ModelAbstract->setOnLoad() function that takes care of transforming a
+     * dateformat read from the database to a \Zend_Date format
+     *
+     * @see \MUtil_Model_ModelAbstract
+     *
+     * @param mixed $value The value being saved
+     * @param boolean $isNew True when a new item is being saved
+     * @param string $name The name of the current field
+     * @param array $context Optional, the other values being saved
+     * @param boolean $isPost True when passing on post data
+     * @return [] roles
+     */
+    public function loadRoles($value, $isNew = false, $name = null, array $context = array(), $isPost = false)
+    {
+        if (is_array($value)) {
+           return $value;
+        } elseif ($isNew) {
+           return [];
+        }
+        $roles = $this->acl->getRolesForPrivilege('faq.see.' . $context['gfp_action']);
+        unset($roles['master']);
+        
+        return array_values($roles);
+    }
+    /**
+     * A ModelAbstract->setOnSave() function that returns the input
+     * date as a valid date.
+     *
+     * @see \MUtil_Model_ModelAbstract
+     *
+     * @param mixed $value The value being saved
+     * @param boolean $isNew True when a new item is being saved
+     * @param string $name The name of the current field
+     * @param array $context Optional, the other values being saved
+     * @return null
+     */
+    public function saveRoles($value, $isNew = false, $name = null, array $context = array())
+    {
+        // \MUtil_Echo::track(func_get_args());
+        $privilege = 'faq.see.' . trim($this->db->quote($context['gfp_action']), '\'');
+        $value     = (array) $value;
+        
+        $roles     =  $this->acl->getRoles();
+        $roles     = array_combine($roles, $roles);
+        unset($roles['master']);
+
+        $addedTo = 0;
+        $checked = $value + $this->acl->getChildRoles($value);
+
+        $removedFrom = 0;
+        $unchecked   = array_diff($roles, $checked);
+        // \MUtil_Echo::track($checked, $unchecked);
+        
+        foreach ($checked as $role) {
+            $privRole = $this->acl->getPrivileges($role);
+            $privileges = array_combine($privRole[\Zend_Acl::TYPE_ALLOW], $privRole[\Zend_Acl::TYPE_ALLOW]);
+            $privileges[$privilege] = $privilege;
+
+//            \MUtil_Echo::track($role, implode(',', $privileges));
+            $addedTo += $this->db->update(
+                'gems__roles', 
+                ['grl_privileges' => implode(',', $privileges)], 
+                $this->db->quoteInto("grl_name = ? AND grl_privileges NOT LIKE '%$privilege%'", $role));
+        }
+        foreach ($unchecked as $role) {
+            $privRole = $this->acl->getPrivileges($role);
+            $privileges = array_combine($privRole[\Zend_Acl::TYPE_ALLOW], $privRole[\Zend_Acl::TYPE_ALLOW]);
+            unset($privileges[$privilege]);
+
+//            \MUtil_Echo::track($role, implode(',', $privileges));
+            $removedFrom += $this->db->update(
+                'gems__roles',
+                ['grl_privileges' => implode(',', $privileges)],
+                $this->db->quoteInto("grl_name = ? AND grl_privileges LIKE '%$privilege%'", $role));
+        }
+        if ($addedTo) {
+            $this->addMessage(sprintf($this->plural('Access granted to %d role', 'Access granted to %d roles', $addedTo), $addedTo));            
+        }
+        if ($removedFrom) {
+            $this->addMessage(sprintf($this->plural('Access removed for %d role', 'Access removed for %d roles', $removedFrom), $removedFrom));            
+        }
+        
+        return null; 
     }
 }

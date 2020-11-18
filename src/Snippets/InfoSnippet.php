@@ -80,7 +80,7 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
             }
         }
         
-        return $this->faqUtil->getInfoDiv($seq);
+        return $this->faqUtil->getInfoDiv($seq, $this->inlineExample);
     }
     
     /**

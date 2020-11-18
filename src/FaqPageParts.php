@@ -116,7 +116,7 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
      */
     public function getGroupItems($groupId)
     {
-        $sql = "SELECT * FROM gemsfaq__items WHERE gfi_group_id = ? ORDER BY gfi_id_order, gfi_title";
+        $sql = "SELECT * FROM gemsfaq__items WHERE gfi_group_id = ? AND gfi_active = 1 ORDER BY gfi_id_order, gfi_title";
 
         $items = $this->db->fetchAll($sql, $groupId);
 
