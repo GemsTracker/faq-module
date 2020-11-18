@@ -182,8 +182,9 @@ class FaqUtil extends \Gems\Util\UtilAbstract
      */
     public function getDocumentRoot()
     {
-        $dir = GEMS_ROOT_DIR . '/var/uploads/info';
-
+        // $dir = GEMS_ROOT_DIR . '/var/uploads/info';
+        $dir = GEMS_WEB_DIR . DIRECTORY_SEPARATOR . 'info';
+        
         if (! file_exists($dir)) {
             \MUtil_File::ensureDir($dir);
         }

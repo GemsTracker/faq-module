@@ -3,7 +3,7 @@
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Part
+ * @subpackage PageParts\Group
  * @author     Matijs de Jong <mjong@magnafacta.nl>
  * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
@@ -16,12 +16,11 @@ use GemsFaq\PageParts\ItemPartInterface;
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Part
+ * @subpackage PageParts\Group
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class InfoTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract 
-    implements \GemsFaq\PageParts\GroupPartInterface
+class FlexMediumGroup extends \GemsFaq\PageParts\GroupAbstract
 {
     /**
      * @var bool
@@ -37,26 +36,27 @@ class InfoTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract
      */
     public function getHtmlOutput()
     {
-        $seq = \MUtil_Html::div(['class' => 'alert alert-info', 'role' => "alert"]);
+        $seq = $this->getHtmlSequence();
 
         if ($this->showTitle) {
             $seq->h2($this->data['gfg_group_name'])->class = 'faq';
         }
 
+        $div = $seq->div(['class' => 'info-flex', 'renderClosingTag' => true]);
         foreach ($this->getGroupItems() as $item) {
             if ($item instanceof ItemPartInterface) {
-                $seq->append($this->getItemDiv($item->getHtmlOutput()));
+                $div->append($this->getItemDiv($item->getHtmlOutput()));
             }
         }
-        return $seq;
 
+        return  $seq;
     }
-
+    
     /**
      * @inheritDoc
      */
     public function getPartName()
     {
-        return $this->_('Info with group title');
+        return $this->_('Get a flexible column layout'); 
     }
 }

@@ -44,11 +44,11 @@ class ListTitleGroupPart extends \GemsFaq\PageParts\GroupAbstract implements \Ge
 
         foreach ($this->getGroupItems() as $item) {
             if ($item instanceof ItemPartInterface) {
-                $seq->append($item->getHtmlOutput());
+                $seq->append($this->getItemDiv($item->getHtmlOutput()));
             }
         }
         
-        return $seq;
+        return  $seq;
     }
     
     /**

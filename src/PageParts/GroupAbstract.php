@@ -110,4 +110,13 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     {
         return null;
     }
+    
+    /**
+     * @param mixed $content
+     * @return \MUtil_Html_HtmlInterface
+     */
+    public function getItemDiv($content)
+    {
+        return \MUtil_Html::div(['class' => 'info-item', 'renderClosingTag' => true], $content);
+    }
 }

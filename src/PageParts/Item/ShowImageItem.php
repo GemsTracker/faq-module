@@ -18,14 +18,33 @@ namespace GemsFaq\PageParts\Item;
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ShowImageItem //  extends \GemsFaq\PageParts\ItemAbstract
+class ShowImageItem extends \GemsFaq\PageParts\ItemAbstract
 {
+    /**
+     * @var GemsFaq\Util\FaqUtil
+     */
+    protected $faqUtil;
+
+    /**
+     * @var 
+     */
+    protected $util;
+    
     /**
      * @inheritDoc
      */
     public function getBodySettings()
     {
-        // TODO: Implement getBodySettings() method.
+        $fileModel = $this->faqUtil->getDocumentModel(false, '/.+\\.(img|jpg|jpeg|png|svg)$/');
+        
+        $images = $fileModel->load();
+        \MUtil_Echo::track($images);
+        $imageDisplay = array_column($images, 'relpath', 'relpath');
+        
+        return [
+            'label' => $this->_('Image'),
+            'multiOptions' => $imageDisplay,
+        ];
     }
 
     /**
@@ -41,7 +60,7 @@ class ShowImageItem //  extends \GemsFaq\PageParts\ItemAbstract
      */
     public function getHtmlOutput()
     {
-        // TODO: Implement getHtmlOutput() method.
+        return \MUtil_Html_ImgElement::img(['src' => 'info/' . $this->data['gfi_body'], 'alt' => $this->data['gfi_title']]);
     }
 
     /**

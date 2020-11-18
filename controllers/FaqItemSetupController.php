@@ -149,7 +149,7 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         
         $options = $this->faqParts->listItemParts();
         $model->set('gfi_display_method', 'label', $this->_('Display option'),
-                    'default', key($options),
+                    'default', 'GemsFaq\\PageParts\\Item\\ListQuestionItem',
                     'multiOptions', $options
         );
         $model->set('gfi_title', 'label', $this->_('Question'),
