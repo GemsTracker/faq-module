@@ -49,7 +49,7 @@ class FaqFileUploadController extends \Gems_Default_FileActionAbstract
      */
     public function createModel($detailed, $action)
     {
-        return $this->faqUtil->getDocumentModel($detailed, $this->getMask());
+        return $this->faqUtil->getDocumentModel($detailed, $this->getMask($detailed, $action));
     }
 
     /**
