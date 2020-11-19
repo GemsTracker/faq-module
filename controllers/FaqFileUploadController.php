@@ -19,6 +19,11 @@
 class FaqFileUploadController extends \Gems_Default_FileActionAbstract
 {
     /**
+     * @var A regular expression for allowed file extensions
+     */
+    protected $_mask;
+    
+    /**
      * @var \GemsFaq\Util\FaqUtil
      */
     public $faqUtil; 
@@ -44,7 +49,26 @@ class FaqFileUploadController extends \Gems_Default_FileActionAbstract
      */
     public function createModel($detailed, $action)
     {
-        return $this->faqUtil->getDocumentModel($detailed);
+        return $this->faqUtil->getDocumentModel($detailed, $this->getMask());
     }
 
+    /**
+     * Return the mask to use for the relpath of the file, use of / slashes for directory seperator required
+     *
+     * @param boolean $detailed True when the current action is not in $summarizedActions.
+     * @param string $action The current action.
+     * @return string or null
+     */
+    public function getMask($detailed, $action)
+    {
+        if (! $this->_mask) {
+            $this->_mask = \MUtil_File::createMask([
+                                                       \MUtil_File::$imageExtensions,
+                                                       \MUtil_File::$documentExtensions,
+                                                       \MUtil_File::$textExtensions,
+                                                       \MUtil_File::$videoExtensions]);
+        }
+    
+        return $this->_mask;
+    }
 }

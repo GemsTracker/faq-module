@@ -153,7 +153,11 @@ class FaqUtil extends \Gems\Util\UtilAbstract
                 
                 if ($target instanceof \Gems_Menu_MenuAbstract) {
                     // \MUtil_Echo::track($item->get('label'), get_class($item), get_class($target), 'faq.see.' . $page['gfp_action']);
-                    $target->addPage($page['gfp_label'], 'faq.see.' . $page['gfp_action'], 'info', $page['gfp_action'], $options);
+                    $page = $target->addPage($page['gfp_label'], 'faq.see.' . $page['gfp_action'], 'info', $page['gfp_action'], $options);
+                    
+                    if ($target instanceof \Gems_Menu_SubMenuItem) {
+                        $page->setNamedParameters($target->getParameters());
+                    }
                 }
             }
         }

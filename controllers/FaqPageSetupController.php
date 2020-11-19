@@ -218,7 +218,8 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     public function formatRoles($value) 
     {
         if (is_array($value)) {
-            return implode($this->_(', '), $value);
+            return \MUtil_Html_Sequence::createSequence(['glue' => '<br/>'], $value);
+            // return \MUtil_Html::create('ul', $value, ['class' => 'list-unstyled']);
         }    
         
         return $value;
