@@ -55,6 +55,9 @@ class ImageItem extends \GemsFaq\PageParts\ItemAbstract
     {
         $oldData = $this->data;
 
+        if (! isset($this->data['gfi_title'])) {
+            $this->data['gfi_title'] = 'Example image';
+        }
         $this->data['gfi_body'] = $value;
         $output = $this->getHtmlOutput();
 
