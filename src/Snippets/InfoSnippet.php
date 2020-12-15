@@ -46,7 +46,7 @@ class InfoSnippet extends \MUtil_Snippets_SnippetAbstract
      * @var bool 
      */
     protected $inlineExample = false;
-    
+
     /**
      * @var int
      */

@@ -112,10 +112,21 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
 
     /**
      * @param int $groupid
+     * @param \Zend_Locale|string $locale                    
      * @return array itemId => ItemPartInterface
      */
-    public function getGroupItems($groupId)
+    public function getGroupItems($groupId, $locale = null)
     {
+        if ($locale) {
+            if ($locale instanceof \Zend_Locale) {
+                $localeTest = $locale->getLanguage();
+            } else {
+                $localeTest = $locale;
+            }
+        } else {
+            $localeTest = false;
+        }    
+        
         $sql = "SELECT * FROM gemsfaq__items WHERE gfi_group_id = ? AND gfi_active = 1 ORDER BY gfi_id_order, gfi_title";
 
         $items = $this->db->fetchAll($sql, $groupId);
@@ -129,7 +140,10 @@ class FaqPageParts extends \MUtil_Registry_TargetAbstract
             $part = $this->getItemPart($item['gfi_display_method']);
             if ($part instanceof ItemPartInterface) {
                 $part->exchangeArray($item);
-                $output[$item['gfi_id']] = $part;
+                // When no test or when for current locale
+                if ((! $localeTest ) || $part->isForLocale($localeTest)) {
+                    $output[$item['gfi_id']] = $part;
+                }
             }
         }
 

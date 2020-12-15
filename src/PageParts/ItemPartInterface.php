@@ -26,4 +26,11 @@ interface ItemPartInterface extends PartInterface
      * @return array
      */
     public function getBodySettings();
+    
+    /**
+     * Is this item usuable for this locale
+     *
+     * @return boolean
+     */
+    public function isForLocale($locale);
 }

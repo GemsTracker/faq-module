@@ -241,7 +241,7 @@ class FaqUtil extends \Gems\Util\UtilAbstract
             __FUNCTION__, 
             "SELECT gfg_id, gfg_group_name FROM gemsfaq__groups WHERE gfg_active = 1 ORDER BY gfg_id_order, gfg_group_name",
             null, 
-            'faq_pages');
+            'faq_groups');
     }
     
     /**

@@ -49,7 +49,12 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
      * @var 
      */
     protected $groupItems;
-    
+
+    /**
+     * @var \Zend_Locale
+     */
+    protected $locale;
+
     /**
      * @inheritDoc
      */
@@ -86,7 +91,7 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     protected function getGroupItems()
     {
         if (! $this->groupItems) {
-            $this->groupItems = $this->faqParts->getGroupItems($this->data['gfg_id']);
+            $this->groupItems = $this->faqParts->getGroupItems($this->data['gfg_id'], $this->locale);
         }
         return $this->groupItems;
     }

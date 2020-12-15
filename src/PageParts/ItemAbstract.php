@@ -84,4 +84,19 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     {
         return null;
     }
+    
+    /**
+     * Is this item usuable for this locale
+     *
+     * @param $locale string
+     * @return boolean
+     */
+    public function isForLocale($locale)
+    {
+        if (is_array($this->data['gfi_iso_langs'])) {
+            return in_array($this->data['gfi_iso_langs'], $locale);
+        }
+        
+        return \MUtil_String::contains($this->data['gfi_iso_langs'], ":$locale:");
+    }
 }

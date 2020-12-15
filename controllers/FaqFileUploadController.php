@@ -57,16 +57,17 @@ class FaqFileUploadController extends \Gems_Default_FileActionAbstract
      *
      * @param boolean $detailed True when the current action is not in $summarizedActions.
      * @param string $action The current action.
-     * @return string or null
+     * @return string or null or array of extensions
      */
     public function getMask($detailed, $action)
     {
         if (! $this->_mask) {
-            $this->_mask = \MUtil_File::createMask([
-                                                       \MUtil_File::$imageExtensions,
-                                                       \MUtil_File::$documentExtensions,
-                                                       \MUtil_File::$textExtensions,
-                                                       \MUtil_File::$videoExtensions]);
+            $this->_mask = [
+                \MUtil_File::$imageExtensions,
+                \MUtil_File::$documentExtensions,
+                \MUtil_File::$textExtensions,
+                \MUtil_File::$videoExtensions,
+                ];
         }
     
         return $this->_mask;
