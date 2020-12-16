@@ -67,4 +67,13 @@ class ExampleItemPart implements ItemPartInterface
     public function getPartName()
     {
     }
+    
+    /**
+     * @inheritDoc
+     *
+     */
+    public function isForLocale($locale)
+    {
+        return true;
+    }
 }
