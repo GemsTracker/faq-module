@@ -9,7 +9,7 @@ CREATE TABLE if not exists gemsfaq__items (
         gfi_id_order                int not null default 10,
         gfi_iso_langs               varchar(40) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null default 'en',
         gfi_display_method          varchar(255) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' not null,
-        gfi_title                   varchar(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' null,
+        gfi_title                   varchar(255) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' null,
         gfi_body                    text CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' null,
 
         gfi_active                  boolean null default 1,
