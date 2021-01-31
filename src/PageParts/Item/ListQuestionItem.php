@@ -11,7 +11,7 @@
 
 namespace GemsFaq\PageParts\Item;
 
-use GemsFaq\PageParts\BbCodeItemAbstract;
+use GemsFaq\PageParts\HtmlItemAbstract;
 
 /**
  *
@@ -20,7 +20,7 @@ use GemsFaq\PageParts\BbCodeItemAbstract;
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ListQuestionItem extends BbCodeItemAbstract
+class ListQuestionItem extends HtmlItemAbstract
 {
     /**
      * @var bool
@@ -41,7 +41,7 @@ class ListQuestionItem extends BbCodeItemAbstract
         if ($this->showTitle) {
             $seq->h4($this->data['gfi_title']);
         }
-        $seq->pInfo()->bbcode($this->data['gfi_body']);
+        $seq->pInfo()->raw($this->data['gfi_body']);
 
         return $seq;
     }

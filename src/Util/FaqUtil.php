@@ -224,7 +224,7 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     }
 
     /**
-     * @param string $action
+     * @param string $pageid
      * @return mixed
      */
     public function getInfoGroupsList($pageid = null)
@@ -260,6 +260,23 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     public function getInfoPageById($pageId)
     {
         return $this->db->fetchRow("SELECT * FROM gemsfaq__pages WHERE gfp_active = 1 AND gfp_id = ?", $pageId);
+    }
+
+    public function getInfoPageAndGroupsList($pageid = null)
+    {
+        if ($pageid) {
+            $sql = "SELECT gfg_id, CONCAT(gfp_title, ' - ', gfg_group_name) 
+                        FROM gemsfaq__groups INNER JOIN gemsfaq__pages ON gfg_page_id=gfp_id  
+                        WHERE gfg_active = 1 AND gfg_page_id = ? 
+                        ORDER BY gfp_title, gfg_id_order, gfg_group_name";
+
+            return $this->_getSelectPairsCached(__FUNCTION__ . '_' . intval($pageid), $sql, [$pageid], 'faq_pages');
+        }
+        return $this->_getSelectPairsCached(
+            __FUNCTION__,
+            "SELECT gfg_id, CONCAT(gfp_title, ' - ', gfg_group_name) FROM gemsfaq__groups INNER JOIN gemsfaq__pages ON gfg_page_id=gfp_id WHERE gfg_active = 1 ORDER BY gfp_title, gfg_id_order, gfg_group_name",
+            null,
+            'faq_groups');
     }
     
     /**

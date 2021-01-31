@@ -18,17 +18,17 @@ namespace GemsFaq\PageParts;
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-abstract class BbCodeItemAbstract extends ItemAbstract
+abstract class HtmlItemAbstract extends ItemAbstract
 {
     /**
      * @var array
      */
     protected $exampleData = [
         'gfi_title' => 'Example question',
-        'gfi_body' => '[b]Lorem ipsum dolor sit[/b] amet, [i]consectetur adipiscing[/i] elit. Curabitur efficitur finibus mauris tempor porttitor. Ut mattis neque sit amet orci placerat ornare. Suspendisse potenti. Ut at libero malesuada, facilisis ipsum at, blandit nisi. Sed elementum tellus id justo imperdiet, vel pharetra mi ultrices. Pellentesque non nunc varius, aliquam lorem sed, tincidunt velit. Nulla non enim non nulla sollicitudin convallis. Curabitur vestibulum ultricies tellus. Fusce faucibus efficitur lacus, vel efficitur ipsum consectetur sed.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. [b]Maecenas sit amet nisi dapibus[/b], lobortis nulla in, dignissim arcu. Pellentesque vel bibendum mauris. Suspendisse cursus, ipsum nec egestas elementum, nisi odio gravida ex, nec fringilla nulla leo eu augue. Fusce vel convallis diam. In lacinia massa sit amet ante consequat venenatis. Aenean semper elit vel pulvinar vulputate. Morbi ac turpis condimentum, gravida augue non, feugiat tellus. Nunc eu est non nibh tincidunt mattis vel sed dolor. In hac habitasse platea dictumst. In metus erat, fermentum ac vulputate ac, facilisis eu ligula.
-
+        'gfi_body' => '<b>Lorem ipsum dolor sit</b> amet, <i>consectetur adipiscing</i> elit. Curabitur efficitur finibus mauris tempor porttitor. Ut mattis neque sit amet orci placerat ornare. Suspendisse potenti. Ut at libero malesuada, facilisis ipsum at, blandit nisi. Sed elementum tellus id justo imperdiet, vel pharetra mi ultrices. Pellentesque non nunc varius, aliquam lorem sed, tincidunt velit. Nulla non enim non nulla sollicitudin convallis. Curabitur vestibulum ultricies tellus. Fusce faucibus efficitur lacus, vel efficitur ipsum consectetur sed.
+<br/><br/>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. <b>Maecenas sit amet nisi dapibus</b>, lobortis nulla in, dignissim arcu. Pellentesque vel bibendum mauris. Suspendisse cursus, ipsum nec egestas elementum, nisi odio gravida ex, nec fringilla nulla leo eu augue. Fusce vel convallis diam. In lacinia massa sit amet ante consequat venenatis. Aenean semper elit vel pulvinar vulputate. Morbi ac turpis condimentum, gravida augue non, feugiat tellus. Nunc eu est non nibh tincidunt mattis vel sed dolor. In hac habitasse platea dictumst. In metus erat, fermentum ac vulputate ac, facilisis eu ligula.
+<br/><br/>
 Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien non tincidunt. Ut sit amet felis vel lorem malesuada finibus ut eu ipsum. Proin iaculis, libero vehicula varius auctor, magna ligula faucibus nulla, id mattis odio lacus vitae augue. Nulla facilisi. Donec luctus suscipit erat et bibendum. Nunc tincidunt justo quis quam fermentum, vitae ornare massa efficitur. Pellentesque eleifend vitae erat vitae placerat. Maecenas interdum libero vestibulum mollis porta. Maecenas porta, turpis vitae malesuada convallis, dolor mi vehicula nisi, at scelerisque odio turpis nec est. Fusce eleifend elit ut dui rutrum aliquet.',
         'gfg_active' => 1,
     ];
@@ -60,16 +60,19 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
         }
         
         $config = array(
-            'extraPlugins' => 'bbcode,availablefields',
+            'extraPlugins' => 'availablefields',
+            'removePlugins' => 'bbcode',
+            'justifyClasses' => ['text-left', 'text-center', 'text-right', 'text-align'],
             'toolbar' => array(
-                array('Source','-','Undo','Redo'),
-                array('Find','Replace','-','SelectAll','RemoveFormat'),
+                array('Source', 'Maximize', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo','Redo'),
+                // array('Find','Replace','-','SelectAll'),
                 array('Link', 'Unlink', 'Image', 'SpecialChar'),
+                // array('availablefields'),
                 '/',
-                array('Bold', 'Italic','Underline'),
-                array('NumberedList','BulletedList','-','Blockquote'),
-                array('Maximize'),
-                array('availablefields')
+                array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'), 
+                // array('Outdent', 'Indent'),
+                array('NumberedList','BulletedList','-','Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'),
+                array('Styles', 'Format'), // , 'Font', 'FontSize', '-', 'TextColor', 'BGColor'),
             )
         );
         // $config['availablefields'] = ['tokenLost' => '/ask/lost'];
@@ -83,37 +86,17 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     }
 
     /**
-     * Display a template body
-     *
-     * @param string $bbcode
-     * @return \MUtil_Html_HtmlElement
-     */
-    public function bbToHtml($bbcode)
-    {
-        if (empty($bbcode)) {
-            $em = \MUtil_Html::create('em');
-            $em->raw($this->_('&laquo;empty&raquo;'));
-
-            return $em;
-        }
-
-        $div = \MUtil_Html::create('div', array('class' => 'mailpreview'));
-        $div->bbcode($bbcode);
-
-        return $div;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getBodySettings()
     {
         return [
-            'label'          => $this->_('Answer'),
+            'label'          => $this->_('Answer' . "\n"),
+            'autoInsertNoTagsValidator' => false,
             'cols'           => 60,
             'decorators'     => ['CKEditor'],
             'elementClass'   => 'Textarea',
-            'formatFunction' => [$this, 'bbToHtml'],
+            'formatFunction' => [$this, 'toHtml'],
             'required'       => true,
             'rows'           => 8,
             ];
@@ -132,5 +115,26 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
         $p = $seq->pInfo($this->_('Tou can find more instructions on the PHP BB Code site:'));
         $p->a('https://www.phpbb.com/community/help/bbcode', $this->_('BBCode guide'));
         return $seq;
+    }
+    
+    /**
+     * Display a template body
+     *
+     * @param string $code
+     * @return \MUtil_Html_HtmlElement
+     */
+    public function toHtml($code)
+    {
+        if (empty($code)) {
+            $em = \MUtil_Html::create('em');
+            $em->raw($this->_('&laquo;empty&raquo;'));
+
+            return $em;
+        }
+
+        $div = \MUtil_Html::create('div', array('class' => 'mailpreview'));
+        $div->raw($code);
+
+        return $div;
     }
 }

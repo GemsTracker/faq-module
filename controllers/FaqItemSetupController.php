@@ -120,8 +120,8 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         $model = new \Gems_Model_JoinModel('gemsfaq__items', 'gemsfaq__items', 'gfi');
 
         if ($detailed) {
-            $options = $this->faqUtil->getInfoGroupsList();
-            $model->set('gfi_group_id', 'label', $this->_('FAQ Group'),
+            $options = $this->faqUtil->getInfoPageAndGroupsList();
+            $model->set('gfi_group_id', 'label', $this->_('FAQ Page - Group'),
                         'default', key($options),
                         'multiOptions', $options
             );

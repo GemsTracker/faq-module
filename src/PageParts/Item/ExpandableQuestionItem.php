@@ -11,7 +11,7 @@
 
 namespace GemsFaq\PageParts\Item;
 
-use GemsFaq\PageParts\BbCodeItemAbstract;
+use GemsFaq\PageParts\HtmlItemAbstract;
 
 /**
  *
@@ -20,7 +20,7 @@ use GemsFaq\PageParts\BbCodeItemAbstract;
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ExpandableQuestionItem extends BbCodeItemAbstract
+class ExpandableQuestionItem extends HtmlItemAbstract
 {
     /**
      *
