@@ -112,8 +112,6 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
         $seq = $this->getHtmlSequence();
         $seq->pInfo()->bbcode($this->_('Use the [code]Source[/code] button to view the underlying codes.'));
         
-        $p = $seq->pInfo($this->_('Tou can find more instructions on the PHP BB Code site:'));
-        $p->a('https://www.phpbb.com/community/help/bbcode', $this->_('BBCode guide'));
         return $seq;
     }
     

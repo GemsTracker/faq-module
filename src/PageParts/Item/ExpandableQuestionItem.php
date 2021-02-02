@@ -74,7 +74,7 @@ class ExpandableQuestionItem extends HtmlItemAbstract
 
         $divContent = $divAll->div(['class' => 'content faq', 'style' => 'display: none;']);
 
-        $divContent->pInfo()->bbcode($this->data['gfi_body']);
+        $divContent->pInfo()->raw($this->data['gfi_body']);
 
         return $seq;
     }
