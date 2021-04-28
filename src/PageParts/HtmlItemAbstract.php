@@ -64,7 +64,7 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
             'colorButton_colors' => ['00923E','F8C100','28166F'],
             'disableObjectResizing' => true,
             // 'fontSize_sizes' => "30/30%;50/50%;100/100%;120/120%;150/150%;200/200%;300/300%",
-            'extraPlugins' => 'colorbutton',
+            // 'extraPlugins' => 'colorbutton',
             'removePlugins' => 'bbcode',
             'justifyClasses' => ['text-left', 'text-center', 'text-right', 'text-align'],
             'toolbar' => array(
