@@ -98,7 +98,7 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
             'label'          => $this->_('Answer' . "\n"),
             'autoInsertNoTagsValidator' => false,
             'cols'           => 60,
-            'decorators'     => ['CKEditor2'],
+            'decorators'     => ['CKEditor'],
             'elementClass'   => 'Textarea',
             'formatFunction' => [$this, 'toHtml'],
             'required'       => true,
