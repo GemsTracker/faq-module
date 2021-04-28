@@ -3,31 +3,36 @@
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Item
+ * @subpackage PageParts\Group
  * @author     Matijs de Jong <mjong@magnafacta.nl>
- * @copyright  Copyright (c) 2020, Erasmus MC and MagnaFacta B.V.
+ * @copyright  Copyright (c) 2021, Erasmus MC and MagnaFacta B.V.
  * @license    New BSD License
  */
 
-namespace GemsFaq\PageParts\Item;
+namespace GemsFaq\PageParts\Group;
 
-use GemsFaq\PageParts\HtmlItemAbstract;
+use GemsFaq\PageParts\ItemPartInterface;
 use GemsFaq\PageParts\SetJQueryView;
 
 /**
  *
  * @package    GemsFaq
- * @subpackage PageParts\Item
+ * @subpackage PageParts\Group
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ExpandableQuestionItem extends HtmlItemAbstract
+class ExpandableGroup extends \GemsFaq\PageParts\GroupAbstract
 {
     /**
      *
      * @var \Gems_Util_BasePath
      */
     protected $basepath;
+
+    /**
+     * @var \Zend_View
+     */
+    protected $view;
 
     /**
      * Called after the check that all required registry values
@@ -43,30 +48,31 @@ class ExpandableQuestionItem extends HtmlItemAbstract
 
         SetJQueryView::addJQuery($this->view, $this->basepath);
     }
-    
+
+
     /**
-     * Create the snippets content
-     *
-     * This is a stub function either override getHtmlOutput() or override render()
-     *
-     * @return \MUtil_Html_HtmlInterface Something that can be rendered
+     * @inheritDoc
      */
     public function getHtmlOutput()
     {
         $seq = $this->getHtmlSequence();
-        
+
         $divAll    = $seq->div(['class' => 'verticalExpand']);
 
         $header    = $divAll->div(['class' => 'header']);
-        $headerDiv = $header->h3($this->data['gfi_title'] . ' ', array('class' => 'title'));
+        $headerDiv = $header->h3($this->data['gfg_group_name'] . ' ', array('class' => 'title faq'));
 
-        $span = $headerDiv->span(array('class' => 'header-caret fa fa-chevron-right'))->raw('&nbsp;');
+        $span       = $headerDiv->span(array('class' => 'header-caret fa fa-chevron-right'))->raw('&nbsp;');
 
         $divContent = $divAll->div(['class' => 'content faq', 'style' => 'display: none;']);
 
-        $divContent->pInfo()->raw($this->data['gfi_body']);
+        foreach ($this->getGroupItems() as $item) {
+            if ($item instanceof ItemPartInterface) {
+                $divContent->append($this->getItemDiv($item->getHtmlOutput()));
+            }
+        }
 
-        return $seq;
+        return  $seq;
     }
 
     /**
@@ -74,6 +80,6 @@ class ExpandableQuestionItem extends HtmlItemAbstract
      */
     public function getPartName()
     {
-        return $this->_('Click & see question & answer');
+        return $this->_('Click & see group');;
     }
 }

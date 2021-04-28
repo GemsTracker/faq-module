@@ -60,16 +60,20 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
         }
         
         $config = array(
-            'extraPlugins' => 'availablefields',
+            // 'default' => ['name' => 'Button', 'element' => 'a', 'style' => 'display: background-color: red; block; padding: 1em;'],
+            'colorButton_colors' => ['00923E','F8C100','28166F'],
+            'disableObjectResizing' => true,
+            // 'fontSize_sizes' => "30/30%;50/50%;100/100%;120/120%;150/150%;200/200%;300/300%",
+            'extraPlugins' => 'colorbutton',
             'removePlugins' => 'bbcode',
             'justifyClasses' => ['text-left', 'text-center', 'text-right', 'text-align'],
             'toolbar' => array(
                 array('Source', 'Maximize', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo','Redo'),
                 // array('Find','Replace','-','SelectAll'),
-                array('Link', 'Unlink', 'Image', 'SpecialChar'),
+                array('Link', 'Unlink', 'Image', 'Smiley', 'SpecialChar'),
                 // array('availablefields'),
                 '/',
-                array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'), 
+                array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat', 'TextColor'), 
                 // array('Outdent', 'Indent'),
                 array('NumberedList','BulletedList','-','Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'),
                 array('Styles', 'Format'), // , 'Font', 'FontSize', '-', 'TextColor', 'BGColor'),
@@ -94,7 +98,7 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
             'label'          => $this->_('Answer' . "\n"),
             'autoInsertNoTagsValidator' => false,
             'cols'           => 60,
-            'decorators'     => ['CKEditor'],
+            'decorators'     => ['CKEditor2'],
             'elementClass'   => 'Textarea',
             'formatFunction' => [$this, 'toHtml'],
             'required'       => true,
