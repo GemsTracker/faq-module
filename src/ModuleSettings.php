@@ -24,7 +24,7 @@ class ModuleSettings extends ModuleSettingsAbstract
     /**
      * @var string
      */
-    public static $moduleName = 'GemsFaq';
+    public static $moduleName = 'faq-module';
 
     /**
      * @var string
