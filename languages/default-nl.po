@@ -203,7 +203,7 @@ msgstr "Toon met groep koptekst"
 
 #: src/PageParts/HtmlItemAbstract.php:88
 msgid "Add files"
-msgstr "Voeg bestanden toe"
+msgstr "Voeg in"
 
 #: src/PageParts/HtmlItemAbstract.php:125
 msgid "Download links"
