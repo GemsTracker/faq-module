@@ -101,7 +101,7 @@ class FaqGroupSetupController extends \Gems_Controller_ModelSnippetActionAbstrac
         }
 
         $model->set('gfg_id_order', 'label', $this->_('Display Order'),
-            'description', $this->_('The order of group for display within a page'),
+            'description', $this->_('The display order of the groups within a page'),
             'default', $this->faqUtil->getGroupOrderDefault(),
             'filters[int]', 'Int',
             'validators[unique]', $model->createUniqueValidator('gfg_id_order', ['gfg_id', 'gfg_page_id'])

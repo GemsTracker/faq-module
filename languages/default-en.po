@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gems Randomizer EN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-28 15:07+0100\n"
+"POT-Creation-Date: 2021-07-06 16:45+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Matijs de Jong <mjong@magnafacta.nl>\n"
 "Language-Team: Erasmus MGZ <matijs.de.jong@magnafacta.nl>\n"
@@ -14,6 +14,323 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: plural:1,2\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: controllers\n"
+
+#: controllers/FaqGroupSetupController.php:95
+#: controllers/FaqGroupSetupController.php:100
+#: controllers/FaqItemSetupController.php:132
+msgid "Page"
+msgstr "Page"
+
+#: controllers/FaqGroupSetupController.php:103
+msgid "Display Order"
+msgstr "Display Order"
+
+#: controllers/FaqGroupSetupController.php:104
+#| msgid "The order of group for display within a page"
+msgid "The display order of the groups within a page"
+msgstr "The display order of the groups within a page"
+
+#: controllers/FaqGroupSetupController.php:109
+#: controllers/FaqItemSetupController.php:133
+msgid "Group title"
+msgstr "Group title"
+
+#: controllers/FaqGroupSetupController.php:112
+#: controllers/FaqItemSetupController.php:151
+msgid "Display option"
+msgstr "Display option"
+
+#: controllers/FaqGroupSetupController.php:118
+#: controllers/FaqItemSetupController.php:167
+#: controllers/FaqPageSetupController.php:146
+msgid "Active"
+msgstr "Active"
+
+#: controllers/FaqGroupSetupController.php:123
+msgid "Items"
+msgstr "Items"
+
+#: controllers/FaqGroupSetupController.php:148
+msgid "info group"
+msgid_plural "info groups"
+msgstr[0] "info group"
+msgstr[1] "info groups"
+
+#: controllers/FaqItemSetupController.php:124
+msgid "FAQ Page - Group"
+msgstr "FAQ Page - Group"
+
+#: controllers/FaqItemSetupController.php:134
+msgid "Group Order"
+msgstr "Group Order"
+
+#: controllers/FaqItemSetupController.php:137
+msgid "Order"
+msgstr "Order"
+
+#: controllers/FaqItemSetupController.php:143
+#: src/Snippets/PageEditSnippet.php:54 src/Snippets/PageEditSnippet.php:60
+msgid ", "
+msgstr ", "
+
+#: controllers/FaqItemSetupController.php:144
+msgid "Languages"
+msgstr "Languages"
+
+#: controllers/FaqItemSetupController.php:155
+msgid "Question"
+msgstr "Question"
+
+#: controllers/FaqItemSetupController.php:161
+#: src/PageParts/HtmlItemAbstract.php:104
+msgid "Answer"
+msgstr "Answer"
+
+#: controllers/FaqItemSetupController.php:205
+msgid "question"
+msgid_plural "questions"
+msgstr[0] "question"
+msgstr[1] "questions"
+
+#: controllers/FaqPageSetupController.php:127
+msgid "Only lowercase letters, numbers and - dashes are allowed."
+msgstr "Only lowercase letters, numbers and - dashes are allowed."
+
+#: controllers/FaqPageSetupController.php:129
+msgid "Action name"
+msgstr "Action name"
+
+#: controllers/FaqPageSetupController.php:130
+msgid ""
+"A unique, readable lowercase name containing only letters, numbers and - "
+"dashes."
+msgstr ""
+"A unique, readable lowercase name containing only letters, numbers and - "
+"dashes."
+
+#: controllers/FaqPageSetupController.php:136
+msgid "(Short) menu name"
+msgstr "(Short) menu name"
+
+#: controllers/FaqPageSetupController.php:137
+msgid "Full title"
+msgstr "Full title"
+
+#: controllers/FaqPageSetupController.php:139
+msgid "Menu position"
+msgstr "Menu position"
+
+#: controllers/FaqPageSetupController.php:142
+msgid "Relative position"
+msgstr "Relative position"
+
+#: controllers/FaqPageSetupController.php:152
+msgid "Groups"
+msgstr "Groups"
+
+#: controllers/FaqPageSetupController.php:161
+msgid "For roles"
+msgstr "For roles"
+
+#: controllers/FaqPageSetupController.php:162
+msgid "Roles that can see this page"
+msgstr "Roles that can see this page"
+
+#: controllers/FaqPageSetupController.php:211
+msgid "info page"
+msgid_plural "info pages"
+msgstr[0] "info page"
+msgstr[1] "info pages"
+
+#: controllers/FaqPageSetupController.php:305
+#, php-format
+msgid "Access granted to %d role"
+msgid_plural "Access granted to %d roles"
+msgstr[0] "Access granted to %d role"
+msgstr[1] "Access granted to %d roles"
+
+#: controllers/FaqPageSetupController.php:308
+#, php-format
+msgid "Access removed for %d role"
+msgid_plural "Access removed for %d roles"
+msgstr[0] "Access removed for %d role"
+msgstr[1] "Access removed for %d roles"
+
+#: src/ModuleSubscriber.php:91
+msgid "Info & Manuals"
+msgstr "Info & Manuals"
+
+#: src/ModuleSubscriber.php:92
+msgid "Info Pages"
+msgstr "Info Pages"
+
+#: src/ModuleSubscriber.php:93
+msgid "Info Groups"
+msgstr "Info Groups"
+
+#: src/ModuleSubscriber.php:94
+msgid "Info Items"
+msgstr "Info Items"
+
+#: src/ModuleSubscriber.php:95
+msgid "Info Files"
+msgstr "Info Files"
+
+#: src/PageParts/Group/ExpandableGroup.php:83
+msgid "Click & see group"
+msgstr "Click & see group"
+
+#: src/PageParts/Group/FlexMediumGroup.php:60
+msgid "Get a flexible column layout"
+msgstr "Get a flexible column layout"
+
+#: src/PageParts/Group/InfoNoTitleGroupPart.php:33
+msgid "Info without group title"
+msgstr "Info without group title"
+
+#: src/PageParts/Group/InfoTitleGroupPart.php:60
+msgid "Info with group title"
+msgstr "Info with group title"
+
+#: src/PageParts/Group/ListNoTitleGroupPart.php:33
+msgid "List without group title"
+msgstr "List without group title"
+
+#: src/PageParts/Group/ListTitleGroupPart.php:59
+msgid "List with group title"
+msgstr "List with group title"
+
+#: src/PageParts/HtmlItemAbstract.php:88
+msgid "Add files"
+msgstr "Add files"
+
+#: src/PageParts/HtmlItemAbstract.php:125
+msgid "Download links"
+msgstr "Download links"
+
+#: src/PageParts/HtmlItemAbstract.php:140
+msgid "Images"
+msgstr "Images"
+
+#: src/PageParts/HtmlItemAbstract.php:161
+msgid "Use the [code]Source[/code] button to view the underlying codes."
+msgstr "Use the [code]Source[/code] button to view the underlying codes."
+
+#: src/PageParts/HtmlItemAbstract.php:176 src/PageParts/Item/VideoItem.php:103
+msgid "&laquo;empty&raquo;"
+msgstr "&laquo;empty&raquo;"
+
+#: src/PageParts/Item/AnswerOnly.php:33
+msgid "List answer only"
+msgstr "List answer only"
+
+#: src/PageParts/Item/ExpandableQuestionItem.php:77
+msgid "Click & see question & answer"
+msgstr "Click & see question & answer"
+
+#: src/PageParts/Item/ImageItem.php:45
+msgid "Image"
+msgstr "Image"
+
+#: src/PageParts/Item/ImageItem.php:92
+msgid "You can select images after uploading them to Info Files"
+msgstr "You can select images after uploading them to Info Files"
+
+#: src/PageParts/Item/ImageItem.php:100
+msgid "Show an image"
+msgstr "Show an image"
+
+#: src/PageParts/Item/ListQuestionItem.php:54
+msgid "List question & answer"
+msgstr "List question & answer"
+
+#: src/PageParts/Item/VideoItem.php:30
+msgid "Input must be in the format <iframe src=\"..\" ></iframe>."
+msgstr "Input must be in the format <iframe src=\"..\" ></iframe>."
+
+#: src/PageParts/Item/VideoItem.php:32
+msgid "Inline video"
+msgstr "Inline video"
+
+#: src/PageParts/Item/VideoItem.php:35
+msgid ""
+"Paste the embed iFrame html from the video service (only youtube at the "
+"moment)."
+msgstr ""
+"Paste the embed iFrame html from the video service (only youtube at the "
+"moment)."
+
+#: src/PageParts/Item/VideoItem.php:71
+msgid "This currently only works with [b]Youtube[/b]"
+msgstr "This currently only works with [b]Youtube[/b]"
+
+#: src/PageParts/Item/VideoItem.php:72
+msgid "Follow these steps:"
+msgstr "Follow these steps:"
+
+#: src/PageParts/Item/VideoItem.php:74
+msgid "Go to SHARE on the video page."
+msgstr "Go to SHARE on the video page."
+
+#: src/PageParts/Item/VideoItem.php:75
+#| msgid "Choose Embed or iFrame of [code]<>[/code] as the sharing method."
+msgid "Choose Embed or iFrame or [code]<>[/code] as the sharing method."
+msgstr "Choose Embed or iFrame or [code]<>[/code] as the sharing method."
+
+#: src/PageParts/Item/VideoItem.php:76
+msgid "Copy and paste the <iframe ... code."
+msgstr "Copy and paste the <iframe ... code."
+
+#: src/PageParts/Item/VideoItem.php:77
+msgid "An example:"
+msgstr "An example:"
+
+#: src/PageParts/Item/VideoItem.php:92
+msgid "An external video - by iframe"
+msgstr "An external video - by iframe"
+
+#: src/Snippets/GroupSearchFormSnippet.php:41
+#: src/Snippets/ItemSearchFormSnippet.php:47
+msgid "(all pages)"
+msgstr "(all pages)"
+
+#: src/Snippets/GroupSearchFormSnippet.php:44
+#: src/Snippets/ItemSearchFormSnippet.php:50
+#: src/Snippets/PageSearchFormSnippet.php:42
+msgid "(any active)"
+msgstr "(any active)"
+
+#: src/Snippets/ItemSearchFormSnippet.php:46
+msgid "(all groups)"
+msgstr "(all groups)"
+
+#: src/Snippets/ItemSearchFormSnippet.php:54
+msgid "(all display options)"
+msgstr "(all display options)"
+
+#: src/Snippets/PageEditSnippet.php:53
+msgid "inherits from"
+msgstr "inherits from"
+
+#: src/Util/FaqUtil.php:353
+msgid "Instructions"
+msgstr "Instructions"
+
+#: src/Util/FaqUtil.php:391
+msgid "Before - at the same level"
+msgstr "Before - at the same level"
+
+#: src/Util/FaqUtil.php:392
+msgid "As first child"
+msgstr "As first child"
+
+#: src/Util/FaqUtil.php:393
+msgid "As last child"
+msgstr "As last child"
+
+#: src/Util/FaqUtil.php:394
+msgid "After - at the same level"
+msgstr "After - at the same level"

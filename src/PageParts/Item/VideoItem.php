@@ -72,7 +72,7 @@ class VideoItem extends \GemsFaq\PageParts\ItemAbstract
         $seq->h4($this->_('Follow these steps:'));
         $ol = $seq->ol();
         $ol->li($this->_('Go to SHARE on the video page.'));
-        $ol->li()->bbcode($this->_('Choose Embed or iFrame of [code]<>[/code] as the sharing method.'));
+        $ol->li()->bbcode($this->_('Choose Embed or iFrame or [code]<>[/code] as the sharing method.'));
         $ol->li($this->_('Copy and paste the <iframe ... code.'));
         $seq->pInfo($this->_('An example:'));
         $seq->pre('<iframe width="560" height="315" 

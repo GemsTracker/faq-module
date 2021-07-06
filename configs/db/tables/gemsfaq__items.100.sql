@@ -3,7 +3,6 @@
 CREATE TABLE if not exists gemsfaq__items (
         gfi_id                      bigint unsigned not null auto_increment,
 
-
         gfi_group_id                bigint unsigned not null references gemsfaq__groups (gfg_id),
         
         gfi_id_order                int not null default 10,

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pulse NL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-28 15:07+0100\n"
+"POT-Creation-Date: 2021-07-06 16:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Matijs de Jong <mjong@magnafacta.nl>\n"
 "Language-Team: Erasmus MGZ <matijs.de.jong@magnafacta.nl>\n"
@@ -14,6 +14,321 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: plural:1,2\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: controllers\n"
+
+#: controllers/FaqGroupSetupController.php:95
+#: controllers/FaqGroupSetupController.php:100
+#: controllers/FaqItemSetupController.php:132
+msgid "Page"
+msgstr "Pahina"
+
+#: controllers/FaqGroupSetupController.php:103
+msgid "Display Order"
+msgstr "Weergave volgorde"
+
+#: controllers/FaqGroupSetupController.php:104
+msgid "The display order of the groups within a page"
+msgstr "De weergavevolgorde van de groepen binnen een pagina"
+
+#: controllers/FaqGroupSetupController.php:109
+#: controllers/FaqItemSetupController.php:133
+msgid "Group title"
+msgstr "Groep koptekst"
+
+#: controllers/FaqGroupSetupController.php:112
+#: controllers/FaqItemSetupController.php:151
+msgid "Display option"
+msgstr "Weergave optie"
+
+#: controllers/FaqGroupSetupController.php:118
+#: controllers/FaqItemSetupController.php:167
+#: controllers/FaqPageSetupController.php:146
+msgid "Active"
+msgstr "Actief"
+
+#: controllers/FaqGroupSetupController.php:123
+msgid "Items"
+msgstr "Items"
+
+#: controllers/FaqGroupSetupController.php:148
+msgid "info group"
+msgid_plural "info groups"
+msgstr[0] "info groep"
+msgstr[1] "info groepen"
+
+#: controllers/FaqItemSetupController.php:124
+msgid "FAQ Page - Group"
+msgstr "FAQ Pagina - Groep"
+
+#: controllers/FaqItemSetupController.php:134
+msgid "Group Order"
+msgstr "Groep volgorde"
+
+#: controllers/FaqItemSetupController.php:137
+msgid "Order"
+msgstr "Volgorde"
+
+#: controllers/FaqItemSetupController.php:143
+#: src/Snippets/PageEditSnippet.php:54 src/Snippets/PageEditSnippet.php:60
+msgid ", "
+msgstr ", "
+
+#: controllers/FaqItemSetupController.php:144
+msgid "Languages"
+msgstr "Talen"
+
+#: controllers/FaqItemSetupController.php:155
+msgid "Question"
+msgstr "Vraag"
+
+#: controllers/FaqItemSetupController.php:161
+#: src/PageParts/HtmlItemAbstract.php:104
+msgid "Answer"
+msgstr "Antwoord"
+
+#: controllers/FaqItemSetupController.php:205
+msgid "question"
+msgid_plural "questions"
+msgstr[0] "vraag"
+msgstr[1] "vragen"
+
+#: controllers/FaqPageSetupController.php:127
+msgid "Only lowercase letters, numbers and - dashes are allowed."
+msgstr "Alleen kleine letters, cijfers en - streepjes."
+
+#: controllers/FaqPageSetupController.php:129
+msgid "Action name"
+msgstr "Actie naam"
+
+#: controllers/FaqPageSetupController.php:130
+msgid ""
+"A unique, readable lowercase name containing only letters, numbers and - "
+"dashes."
+msgstr ""
+"Een unieke, leesbare naam met alleen kleine letters, cijfers en - streepjes."
+
+#: controllers/FaqPageSetupController.php:136
+msgid "(Short) menu name"
+msgstr "(Korte) menu naam"
+
+#: controllers/FaqPageSetupController.php:137
+msgid "Full title"
+msgstr "Volledige koptekst"
+
+#: controllers/FaqPageSetupController.php:139
+msgid "Menu position"
+msgstr "Menu positie"
+
+#: controllers/FaqPageSetupController.php:142
+msgid "Relative position"
+msgstr "Relatieve positie"
+
+#: controllers/FaqPageSetupController.php:152
+msgid "Groups"
+msgstr "Groepen"
+
+#: controllers/FaqPageSetupController.php:161
+msgid "For roles"
+msgstr "Voor rollen"
+
+#: controllers/FaqPageSetupController.php:162
+msgid "Roles that can see this page"
+msgstr "Rollen die deze pagina kunnen zien"
+
+#: controllers/FaqPageSetupController.php:211
+msgid "info page"
+msgid_plural "info pages"
+msgstr[0] "info pagina"
+msgstr[1] "info pagina's"
+
+#: controllers/FaqPageSetupController.php:305
+#, php-format
+msgid "Access granted to %d role"
+msgid_plural "Access granted to %d roles"
+msgstr[0] "Toegang toegekend voor %d rol"
+msgstr[1] "Toegang toegekend voor  %d rollen"
+
+#: controllers/FaqPageSetupController.php:308
+#, php-format
+msgid "Access removed for %d role"
+msgid_plural "Access removed for %d roles"
+msgstr[0] "Toegang verwijderd voor %d rol"
+msgstr[1] "Toegang verwijderd voor %d rollen"
+
+#: src/ModuleSubscriber.php:91
+msgid "Info & Manuals"
+msgstr "Info & Handleidingen"
+
+#: src/ModuleSubscriber.php:92
+msgid "Info Pages"
+msgstr "Info Pagina's"
+
+#: src/ModuleSubscriber.php:93
+msgid "Info Groups"
+msgstr "Info Groepen"
+
+#: src/ModuleSubscriber.php:94
+msgid "Info Items"
+msgstr "Info item"
+
+#: src/ModuleSubscriber.php:95
+msgid "Info Files"
+msgstr "Info Bestanden"
+
+#: src/PageParts/Group/ExpandableGroup.php:83
+msgid "Click & see group"
+msgstr "Klik en zie groep"
+
+#: src/PageParts/Group/FlexMediumGroup.php:60
+msgid "Get a flexible column layout"
+msgstr "Gebruik een flexibele kolom layout"
+
+#: src/PageParts/Group/InfoNoTitleGroupPart.php:33
+msgid "Info without group title"
+msgstr "Info zonder de groep koptekst"
+
+#: src/PageParts/Group/InfoTitleGroupPart.php:60
+msgid "Info with group title"
+msgstr "Info met groep koptekst"
+
+#: src/PageParts/Group/ListNoTitleGroupPart.php:33
+msgid "List without group title"
+msgstr "Toon zonder groep koptekst"
+
+#: src/PageParts/Group/ListTitleGroupPart.php:59
+msgid "List with group title"
+msgstr "Toon met groep koptekst"
+
+#: src/PageParts/HtmlItemAbstract.php:88
+msgid "Add files"
+msgstr "Voeg bestanden toe"
+
+#: src/PageParts/HtmlItemAbstract.php:125
+msgid "Download links"
+msgstr "Download links"
+
+#: src/PageParts/HtmlItemAbstract.php:140
+msgid "Images"
+msgstr "Afbeeldingen"
+
+#: src/PageParts/HtmlItemAbstract.php:161
+msgid "Use the [code]Source[/code] button to view the underlying codes."
+msgstr ""
+"Gebruik de [code]Source[/code] knop om de onderliggende codes te bekijken."
+
+#: src/PageParts/HtmlItemAbstract.php:176 src/PageParts/Item/VideoItem.php:103
+msgid "&laquo;empty&raquo;"
+msgstr "&laquo;leeg&raquo;"
+
+#: src/PageParts/Item/AnswerOnly.php:33
+msgid "List answer only"
+msgstr "Toon alleen het antwoord"
+
+#: src/PageParts/Item/ExpandableQuestionItem.php:77
+msgid "Click & see question & answer"
+msgstr "Klik en zie vraag & antwoord"
+
+#: src/PageParts/Item/ImageItem.php:45
+msgid "Image"
+msgstr "Afbeelding"
+
+#: src/PageParts/Item/ImageItem.php:92
+msgid "You can select images after uploading them to Info Files"
+msgstr ""
+"U kan afbeeldingen selecteren nadat u ze naar Info Bestanden zijn geüpload"
+
+#: src/PageParts/Item/ImageItem.php:100
+msgid "Show an image"
+msgstr "Toon een afbeelding"
+
+#: src/PageParts/Item/ListQuestionItem.php:54
+msgid "List question & answer"
+msgstr "Toon vraag en antwoord"
+
+#: src/PageParts/Item/VideoItem.php:30
+msgid "Input must be in the format <iframe src=\"..\" ></iframe>."
+msgstr "Invoer moet in het formaat <iframe src=\"..\" ></iframe>."
+
+#: src/PageParts/Item/VideoItem.php:32
+msgid "Inline video"
+msgstr "Inline video"
+
+#: src/PageParts/Item/VideoItem.php:35
+msgid ""
+"Paste the embed iFrame html from the video service (only youtube at the "
+"moment)."
+msgstr ""
+"Plak de embed iFrame html van de videoservice (momenteel alleen youtube)."
+
+#: src/PageParts/Item/VideoItem.php:71
+msgid "This currently only works with [b]Youtube[/b]"
+msgstr "Dit werkt momenteel alleen met [b]Youtube[/b]"
+
+#: src/PageParts/Item/VideoItem.php:72
+msgid "Follow these steps:"
+msgstr "Volg deze stappen:"
+
+#: src/PageParts/Item/VideoItem.php:74
+msgid "Go to SHARE on the video page."
+msgstr "Ga naar DELEN op de videopagina."
+
+#: src/PageParts/Item/VideoItem.php:75
+msgid "Choose Embed or iFrame or [code]<>[/code] as the sharing method."
+msgstr "Kies voor Embed of iFrame of [code]<>[/code] als methode om te delen."
+
+#: src/PageParts/Item/VideoItem.php:76
+msgid "Copy and paste the <iframe ... code."
+msgstr "Knip en plak de <iframe ... code."
+
+#: src/PageParts/Item/VideoItem.php:77
+msgid "An example:"
+msgstr "Een voorbeeld:"
+
+#: src/PageParts/Item/VideoItem.php:92
+msgid "An external video - by iframe"
+msgstr "Een externe video - middels iframe"
+
+#: src/Snippets/GroupSearchFormSnippet.php:41
+#: src/Snippets/ItemSearchFormSnippet.php:47
+msgid "(all pages)"
+msgstr "(alle pagina's)"
+
+#: src/Snippets/GroupSearchFormSnippet.php:44
+#: src/Snippets/ItemSearchFormSnippet.php:50
+#: src/Snippets/PageSearchFormSnippet.php:42
+msgid "(any active)"
+msgstr "(elke actief)"
+
+#: src/Snippets/ItemSearchFormSnippet.php:46
+msgid "(all groups)"
+msgstr "(alle groepen)"
+
+#: src/Snippets/ItemSearchFormSnippet.php:54
+msgid "(all display options)"
+msgstr "(alle weergave opties)"
+
+#: src/Snippets/PageEditSnippet.php:53
+msgid "inherits from"
+msgstr "overerft vab"
+
+#: src/Util/FaqUtil.php:353
+msgid "Instructions"
+msgstr "Instructies"
+
+#: src/Util/FaqUtil.php:391
+msgid "Before - at the same level"
+msgstr "Ervoor - op hetzelfde niveau"
+
+#: src/Util/FaqUtil.php:392
+msgid "As first child"
+msgstr "Als eerste kind"
+
+#: src/Util/FaqUtil.php:393
+msgid "As last child"
+msgstr "Als laatste kind"
+
+#: src/Util/FaqUtil.php:394
+msgid "After - at the same level"
+msgstr "Erna - op hetzelfde niveau"

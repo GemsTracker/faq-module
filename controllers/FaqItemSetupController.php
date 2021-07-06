@@ -153,7 +153,8 @@ class FaqItemSetupController extends \Gems_Controller_ModelSnippetActionAbstract
                     'multiOptions', $options
         );
         $model->set('gfi_title', 'label', $this->_('Question'),
-            'size', 60,
+            'maxlength', 255,
+            'size', 120,
             'required', true);
 
         if ($detailed) {

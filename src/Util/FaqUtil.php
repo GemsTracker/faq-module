@@ -26,6 +26,12 @@ class FaqUtil extends \Gems\Util\UtilAbstract
     const MENU_AFTER = 2;
 
     /**
+     *
+     * @var \Gems_Util_BasePath
+     */
+    protected $basepath;
+
+    /**
      * @var \GemsFaq\FaqPageParts
      */
     protected $faqParts;
@@ -194,6 +200,49 @@ class FaqUtil extends \Gems\Util\UtilAbstract
         }
         
         return $dir;
+    }
+
+    /**
+     * @return string The file upload url add on
+     */
+    public function getDocumentUrl()
+    {
+        static $docUrl;
+        
+        if (! $docUrl) {
+            if (! $this->basepath) {
+                $this->basepath = \GemsEscort::getInstance()->basepath;
+            }
+            $docUrl = $this->basepath->getBasePath() . '/info';
+        }
+        
+        return $docUrl;
+    }
+
+    /**
+     * @param $extension
+     * @return null|string
+     */
+    public function getExtensionClass($extension)
+    {
+        switch (strtolower($extension)) {
+            case 'pdf':
+                return 'pdf';
+                
+            case 'doc':
+            case 'docx':
+            case 'rtf':
+                return 'word'; 
+                
+            case 'csv':
+            case 'xls':
+            case 'xslx':
+                return 'excel';
+                
+            default:
+                return null;
+        }
+        
     }
 
     /**

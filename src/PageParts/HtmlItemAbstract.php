@@ -34,6 +34,11 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     ];
 
     /**
+     * @var \GemsFaq\Util\FaqUtil
+     */
+    public $faqUtil;
+
+    /**
      * @var \Zend_View
      */
     protected $view;
@@ -64,24 +69,25 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
             'colorButton_colors' => ['00923E','F8C100','28166F'],
             'disableObjectResizing' => true,
             // 'fontSize_sizes' => "30/30%;50/50%;100/100%;120/120%;150/150%;200/200%;300/300%",
-            // 'extraPlugins' => 'colorbutton',
+            'extraPlugins' => 'availablefields',
             'removePlugins' => 'bbcode',
             'justifyClasses' => ['text-left', 'text-center', 'text-right', 'text-align'],
             'toolbar' => array(
                 array('Source', 'Maximize', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo','Redo'),
                 // array('Find','Replace','-','SelectAll'),
                 array('Link', 'Unlink', 'Image', 'Smiley', 'SpecialChar'),
-                // array('availablefields'),
                 '/',
                 array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat', 'TextColor'), 
                 // array('Outdent', 'Indent'),
                 array('NumberedList','BulletedList','-','Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'),
+                array('availablefields'),
                 array('Styles', 'Format'), // , 'Font', 'FontSize', '-', 'TextColor', 'BGColor'),
             )
         );
-        // $config['availablefields'] = ['tokenLost' => '/ask/lost'];
-
-        // $config['availablefieldsLabel'] = $this->_('Fields');
+        $config['availablefields'] = $this->getFieldList();
+        $config['availablefieldsLabel'] = $this->_('Add files');
+        $config['availablefieldsDisplay'] = 'value';
+        
         $this->view->inlineScript()->prependScript("
                 CKEditorConfig = ".\Zend_Json::encode($config).";
                 ");
@@ -95,7 +101,7 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
     public function getBodySettings()
     {
         return [
-            'label'          => $this->_('Answer' . "\n"),
+            'label'          => $this->_('Answer') . "\n",
             'autoInsertNoTagsValidator' => false,
             'cols'           => 60,
             'decorators'     => ['CKEditor'],
@@ -104,6 +110,44 @@ Fusce ultricies nibh eu leo consectetur accumsan. Ut lobortis volutpat sapien no
             'required'       => true,
             'rows'           => 8,
             ];
+    }
+    
+    public function getFieldList()
+    {
+        $docUrl = $this->faqUtil->getDocumentUrl();
+        $output = [];
+
+        // \MUtil_Echo::track($docUrl);
+        
+        $docModel = $this->faqUtil->getDocumentModel(true, [\MUtil_File::$documentExtensions, \MUtil_File::$textExtensions]);
+        $docs     = $docModel->load();
+        if ($docs) {
+            $label = $this->_('Download links');
+            $output[$label] = '<strong><em>' . $label . '</em></strong>';
+            // \MUtil_Echo::track($docs);
+            foreach ($docs as $doc) {
+                $link = \MUtil_Html_AElement::a($docUrl . '/' . str_replace('\\', '/', $doc['relpath']), $doc['filename']);
+                $link->class = $this->faqUtil->getExtensionClass($doc['extension']);
+                $output[$link->render($this->view)] = $doc['relpath'];
+            }
+        }
+
+        \MUtil_Html_ImgElement::addImageDir($docUrl);
+        $imageModel = $this->faqUtil->getDocumentModel(true, \MUtil_File::$imageExtensions);
+        $images     = $imageModel->load();
+
+        if ($images) {
+            $label = $this->_('Images');
+            $output[$label] = '<strong><em>' . $label . '</em></strong>';
+            // \MUtil_Echo::track($images);
+            foreach ($images as $image) {
+                $img = \MUtil_Html_ImgElement::imgFile($image['relpath']);
+                $output[$img->render($this->view)] = $image['relpath'];
+            }
+        }
+        // \MUtil_Echo::track($output);
+        
+        return $output;
     }
     
     /**
