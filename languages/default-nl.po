@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pulse NL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-06 16:44+0200\n"
+"POT-Creation-Date: 2021-07-23 14:37+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Matijs de Jong <mjong@magnafacta.nl>\n"
 "Language-Team: Erasmus MGZ <matijs.de.jong@magnafacta.nl>\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: controllers/FaqGroupSetupController.php:100
 #: controllers/FaqItemSetupController.php:132
 msgid "Page"
-msgstr "Pahina"
+msgstr "Pagina"
 
 #: controllers/FaqGroupSetupController.php:103
 msgid "Display Order"
@@ -177,9 +177,13 @@ msgstr "Info Items"
 msgid "Info Files"
 msgstr "Info Bestanden"
 
-#: src/PageParts/Group/ExpandableGroup.php:83
+#: src/PageParts/Group/ExpandableGroup.php:82
 msgid "Click & see group"
-msgstr "Klik en zie groep"
+msgstr "Klik en zie groep normaal"
+
+#: src/PageParts/Group/ExpandableGroupHeader.php:56
+msgid "Click & see group with header"
+msgstr "Klik en zie groep met aparte koptekst"
 
 #: src/PageParts/Group/FlexMediumGroup.php:60
 msgid "Get a flexible column layout"

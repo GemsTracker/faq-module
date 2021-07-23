@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gems Randomizer EN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-06 16:45+0200\n"
+"POT-Creation-Date: 2021-07-23 14:37+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Matijs de Jong <mjong@magnafacta.nl>\n"
 "Language-Team: Erasmus MGZ <matijs.de.jong@magnafacta.nl>\n"
@@ -29,7 +29,6 @@ msgid "Display Order"
 msgstr "Display Order"
 
 #: controllers/FaqGroupSetupController.php:104
-#| msgid "The order of group for display within a page"
 msgid "The display order of the groups within a page"
 msgstr "The display order of the groups within a page"
 
@@ -179,9 +178,14 @@ msgstr "Info Items"
 msgid "Info Files"
 msgstr "Info Files"
 
-#: src/PageParts/Group/ExpandableGroup.php:83
+#: src/PageParts/Group/ExpandableGroup.php:82
 msgid "Click & see group"
 msgstr "Click & see group"
+
+#: src/PageParts/Group/ExpandableGroupHeader.php:56
+#| msgid "Click & see group"
+msgid "Click & see group with header"
+msgstr "Click & see group with header"
 
 #: src/PageParts/Group/FlexMediumGroup.php:60
 msgid "Get a flexible column layout"
@@ -276,7 +280,6 @@ msgid "Go to SHARE on the video page."
 msgstr "Go to SHARE on the video page."
 
 #: src/PageParts/Item/VideoItem.php:75
-#| msgid "Choose Embed or iFrame of [code]<>[/code] as the sharing method."
 msgid "Choose Embed or iFrame or [code]<>[/code] as the sharing method."
 msgstr "Choose Embed or iFrame or [code]<>[/code] as the sharing method."
 

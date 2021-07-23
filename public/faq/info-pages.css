@@ -1,0 +1,63 @@
+/* Defaults for compilation */
+.info-pages.inline-example {
+  border: 4px gray groove;
+}
+.info-pages.inline-example .info-main {
+  margin: 0.5em 1em;
+}
+.info-pages h2.faq {
+  background-color: #f4921c;
+  border: #ec721f solid 1px;
+  border-radius: 2px;
+  color: white;
+  font-size: 18px;
+  font-style: bold;
+  padding: 6px 4px;
+  width: 900px;
+}
+.info-pages div.verticalExpand {
+  background-color: #f1f1f1;
+  border: #585858 solid 1px;
+  border-radius: 2px;
+  margin-bottom: 6px;
+  padding: 0 4px 0 4px;
+  width: 900px;
+}
+.info-pages div.verticalExpand.headed {
+  background-color: transparent;
+  border: #f1f1f1 solid 2px;
+}
+.info-pages div.verticalExpand.headed .verticalExpand {
+  width: 888px;
+}
+.info-pages div.verticalExpand .header h2 {
+  margin-top: 10px;
+  width: 888px;
+}
+.info-pages div.verticalExpand .header h3 {
+  color: #585858;
+  font-size: medium;
+  margin: 10px 0;
+}
+.info-pages div.verticalExpand .content {
+  background-color: white;
+  border-top: #585858 solid 1px;
+}
+.info-pages p.info {
+  font-size: 120%;
+  max-width: 56em;
+}
+.info-pages p.info.smaller {
+  font-size: 0.75em;
+}
+.info-pages .info-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.info-pages .info-flex .info-item {
+  background-color: antiquewhite;
+  flex-basis: 25%;
+  min-width: 20em;
+}
+/*# sourceMappingURL=info-pages.css.map */

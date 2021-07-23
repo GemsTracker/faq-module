@@ -1,4 +1,8 @@
 
+/* Defaults for compilation */
+@brandPrimary: #f4921c;
+@brandSecondary: #2b66af;
+
 .info-pages {
   &.inline-example {
     border: 4px gray groove;
@@ -9,7 +13,7 @@
   }
   
   h2.faq {
-    background-color: @brand-primary;
+    background-color: @brandPrimary;
     border: #ec721f solid 1px;
     border-radius: 2px;
     color: white;
@@ -27,10 +31,25 @@
     padding: 0 4px 0 4px;
     width: 900px;
 
-    .header h3 {
-      color: #585858;
-      font-size: medium;
-      margin: 10px 0;
+    &.headed {
+      background-color: transparent;
+      border: #f1f1f1 solid 2px;
+      
+      .verticalExpand {
+        width: 888px;
+      }
+    }
+    
+    .header {
+      h2 {
+        margin-top: 10px;
+        width: 888px;
+      }
+      h3 {
+        color: #585858;
+        font-size: medium;
+        margin: 10px 0;
+      }
     }
 
     .content {

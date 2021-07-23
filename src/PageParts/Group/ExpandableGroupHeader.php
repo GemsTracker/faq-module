@@ -21,34 +21,8 @@ use GemsFaq\PageParts\SetJQueryView;
  * @license    New BSD License
  * @since      Class available since version 1.9.1
  */
-class ExpandableGroup extends \GemsFaq\PageParts\GroupAbstract
+class ExpandableGroupHeader extends ExpandableGroup
 {
-    /**
-     *
-     * @var \Gems_Util_BasePath
-     */
-    protected $basepath;
-
-    /**
-     * @var \Zend_View
-     */
-    protected $view;
-
-    /**
-     * Called after the check that all required registry values
-     * have been set correctly has run.
-     *
-     * This function is no needed if the classes are setup correctly
-     *
-     * @return void
-     */
-    public function afterRegistry()
-    {
-        parent::afterRegistry();
-
-        SetJQueryView::addJQuery($this->view, $this->basepath);
-    }
-
     /**
      * @inheritDoc
      */
@@ -56,10 +30,10 @@ class ExpandableGroup extends \GemsFaq\PageParts\GroupAbstract
     {
         $seq = $this->getHtmlSequence();
 
-        $divAll    = $seq->div(['class' => 'verticalExpand']);
+        $divAll    = $seq->div(['class' => 'verticalExpand headed']);
 
         $header    = $divAll->div(['class' => 'header']);
-        $headerDiv = $header->h3($this->data['gfg_group_name'] . ' ', array('class' => 'title faq'));
+        $headerDiv = $header->h2($this->data['gfg_group_name'] . ' ', array('class' => 'title faq'));
 
         $span       = $headerDiv->span(array('class' => 'header-caret fa fa-chevron-right'))->raw('&nbsp;');
 
@@ -79,6 +53,6 @@ class ExpandableGroup extends \GemsFaq\PageParts\GroupAbstract
      */
     public function getPartName()
     {
-        return $this->_('Click & see group');;
+        return $this->_('Click & see group with header');;
     }
 }
