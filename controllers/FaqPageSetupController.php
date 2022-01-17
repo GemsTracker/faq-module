@@ -36,6 +36,11 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
     ];
 
     /**
+     * @var \Zend_Cache_Core
+     */
+    public $cache;
+
+    /**
      * Variable to set tags for cache cleanup after changes
      *
      * @var array
@@ -248,8 +253,10 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
         $roles = $this->acl->getRolesForPrivilege('faq.see.' . $context['gfp_action']);
         unset($roles['master']);
         
-        return array_values($roles);
+        sort($roles);
+        return $roles;
     }
+    
     /**
      * A ModelAbstract->setOnSave() function that returns the input
      * date as a valid date.
@@ -277,35 +284,45 @@ class FaqPageSetupController extends \Gems_Controller_ModelSnippetActionAbstract
 
         $removedFrom = 0;
         $unchecked   = array_diff($roles, $checked);
-        // \MUtil_Echo::track($checked, $unchecked);
+//        \MUtil_Echo::track($checked, $unchecked, $privilege);
         
         foreach ($checked as $role) {
             $privRole = $this->acl->getPrivileges($role);
             $privileges = array_combine($privRole[\Zend_Acl::TYPE_ALLOW], $privRole[\Zend_Acl::TYPE_ALLOW]);
             $privileges[$privilege] = $privilege;
 
-//            \MUtil_Echo::track($role, implode(',', $privileges));
             $addedTo += $this->db->update(
                 'gems__roles', 
                 ['grl_privileges' => implode(',', $privileges)], 
-                $this->db->quoteInto("grl_name = ? AND grl_privileges NOT LIKE '%$privilege%'", $role));
+                $this->db->quoteInto("grl_name = ? AND grl_privileges NOT LIKE '%,$privilege%'", $role));
+            
+//            \MUtil_Echo::track($role, implode(',', $privileges), $addedTo);
         }
         foreach ($unchecked as $role) {
             $privRole = $this->acl->getPrivileges($role);
             $privileges = array_combine($privRole[\Zend_Acl::TYPE_ALLOW], $privRole[\Zend_Acl::TYPE_ALLOW]);
             unset($privileges[$privilege]);
 
-//            \MUtil_Echo::track($role, implode(',', $privileges));
             $removedFrom += $this->db->update(
                 'gems__roles',
                 ['grl_privileges' => implode(',', $privileges)],
-                $this->db->quoteInto("grl_name = ? AND grl_privileges LIKE '%$privilege%'", $role));
+                $this->db->quoteInto("grl_name = ? AND grl_privileges LIKE '%,$privilege%'", $role));
+
+//            \MUtil_Echo::track($role, implode(',', $privileges), $removedFrom);
         }
         if ($addedTo) {
             $this->addMessage(sprintf($this->plural('Access granted to %d role', 'Access granted to %d roles', $addedTo), $addedTo));            
         }
         if ($removedFrom) {
             $this->addMessage(sprintf($this->plural('Access removed for %d role', 'Access removed for %d roles', $removedFrom), $removedFrom));            
+        }
+        if ($addedTo || $removedFrom) {
+            $this->cache->clean();
+            
+            $model = $this->getModel();
+            if (! $model->getChanged()) {
+                $this->getModel()->addChanged(1);
+            }
         }
         
         return null; 
